@@ -1,0 +1,166 @@
+{
+  "nodes": [
+    {
+      "id": "start-node",
+      "type": "mindMapNode",
+      "data": {
+        "label": "🚀 Bắt đầu kịch bản",
+        "isStart": true
+      },
+      "position": {
+        "x": 0,
+        "y": 0
+      },
+      "width": 182,
+      "height": 51,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773019611928_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 300,
+        "y": 0
+      },
+      "data": {
+        "label": "🌍 Open URL",
+        "originalId": "open-url",
+        "url": "https://dhv.ors.vn/"
+      },
+      "width": 133,
+      "height": 51,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 248,
+        "y": 259.25
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773019614146_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 600,
+        "y": 0
+      },
+      "data": {
+        "label": "⌨️ Type Text",
+        "originalId": "type-text",
+        "selector": "//*[@id=\"form_item_account\"]",
+        "method": "XPath",
+        "text": "admin"
+      },
+      "width": 131,
+      "height": 51,
+      "selected": false,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773019616628_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 900,
+        "y": 0
+      },
+      "data": {
+        "label": "⌨️ Type Text",
+        "originalId": "type-text",
+        "method": "XPath",
+        "selector": " //*[@id=\"form_item_password\"]",
+        "text": "password123"
+      },
+      "width": 131,
+      "height": 51,
+      "selected": false,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773019623509_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1200,
+        "y": 0
+      },
+      "data": {
+        "label": "🖱️ Mouse Click",
+        "originalId": "mouse-click",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/form/div[5]/div/div/div/div/button/span[2]"
+      },
+      "width": 149,
+      "height": 51,
+      "selected": false,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773019637350_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1500,
+        "y": 0
+      },
+      "data": {
+        "label": "🏁 Kết thúc",
+        "isEnd": true,
+        "originalId": "end-flow"
+      },
+      "width": 119,
+      "height": 51,
+      "selected": true,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    }
+  ],
+  "edges": [
+    {
+      "source": "node_1773019611928_0",
+      "sourceHandle": null,
+      "target": "node_1773019614146_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773019611928_0-node_1773019614146_1"
+    },
+    {
+      "source": "node_1773019614146_1",
+      "sourceHandle": null,
+      "target": "node_1773019616628_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773019614146_1-node_1773019616628_2"
+    },
+    {
+      "source": "node_1773019616628_2",
+      "sourceHandle": null,
+      "target": "node_1773019623509_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773019616628_2-node_1773019623509_3"
+    },
+    {
+      "source": "node_1773019623509_3",
+      "sourceHandle": null,
+      "target": "node_1773019637350_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773019623509_3-node_1773019637350_4"
+    },
+    {
+      "source": "start-node",
+      "sourceHandle": null,
+      "target": "node_1773019611928_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-start-node-node_1773019611928_0"
+    }
+  ],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

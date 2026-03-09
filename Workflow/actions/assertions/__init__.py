@@ -1,0 +1,1 @@
+# Category assertions module

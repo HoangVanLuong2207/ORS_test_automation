@@ -14,7 +14,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import './index.css';
 import { NODE_CATEGORIES, getNodeMetadata } from './nodeRegistry';
-import { Search, ChevronDown, ChevronRight, Settings2, Code, X, Download, Upload, Play, Sparkles } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Settings2, Code, X, Download, Upload, Play, Sparkles, BrainCircuit } from 'lucide-react';
 import dagre from 'dagre';
 import PropertyPanel from './components/PropertyPanel';
 import ExecutionDashboard from './components/ExecutionDashboard';
@@ -89,9 +89,9 @@ const MindMapNode = ({ id, data, selected }) => {
 
   // Custom styling based on node purpose
   let nodeStyle = {
-    background: data.isLogic ? 'rgba(139, 92, 246, 0.08)' : 'rgba(16, 185, 129, 0.08)',
-    borderColor: data.isLogic ? '#8B5CF6' : '#10B981',
-    boxShadow: selected ? '0 0 0 2px #3B82F6' : '0 4px 15px rgba(0,0,0,0.05)',
+    background: data.color ? `${data.color}14` : (data.isLogic ? 'rgba(139, 92, 246, 0.08)' : 'rgba(16, 185, 129, 0.08)'),
+    borderColor: data.color || (data.isLogic ? '#8B5CF6' : '#10B981'),
+    boxShadow: selected ? `0 0 0 2px ${data.color || '#3B82F6'}` : '0 4px 15px rgba(0,0,0,0.05)',
   };
 
   if (isStart) {
@@ -212,6 +212,8 @@ const Flow = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [collapsedCategories, setCollapsedCategories] = useState({});
   const [selectedNode, setSelectedNode] = useState(null);
+  const [summary, setSummary] = useState(null);
+  const [isSummarizing, setIsSummarizing] = useState(false);
   const [viewMode, setViewMode] = useState('builder'); // 'builder' or 'runner'
   const { screenToFlowPosition } = useReactFlow();
 
@@ -290,17 +292,28 @@ const Flow = () => {
         y: event.clientY,
       });
 
+      // Tìm category color
+      let categoryColor = '#10B981';
+      for (const cat of Object.values(NODE_CATEGORIES)) {
+        if (cat.nodes.some(n => n.id === nodeMetadata.id)) {
+          categoryColor = cat.color;
+          break;
+        }
+      }
+
       const newNode = {
         id: getId(),
         type: 'mindMapNode',
         position,
         data: {
           label: nodeMetadata.label,
+          description: nodeMetadata.description,
           isLogic: nodeMetadata.isLogic,
           isStart: nodeMetadata.isStart,
           isEnd: nodeMetadata.isEnd,
           isBranching: nodeMetadata.isBranching,
-          originalId: nodeMetadata.id
+          originalId: nodeMetadata.id,
+          color: categoryColor
         },
       };
 
@@ -408,6 +421,33 @@ const Flow = () => {
     return <ExecutionDashboard onBack={() => setViewMode('builder')} onEditFlow={onEditFlow} />;
   }
 
+  const handleAISummary = async () => {
+    console.log("Triggering AI Summary...");
+    setIsSummarizing(true);
+    try {
+      console.log("Nodes:", nodes);
+      console.log("Edges:", edges);
+      const response = await fetch('/api/ai-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nodes, edges })
+      });
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+      if (data.success) {
+        setSummary(data.summary);
+      } else {
+        alert("Lỗi khi tóm tắt: " + data.error);
+      }
+    } catch (err) {
+      console.error("AI Summary Error:", err);
+      alert("Lỗi kết nối: " + err.message);
+    } finally {
+      setIsSummarizing(false);
+    }
+  };
+
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex' }}>
       {/* Sidebar - Drag from here */}
@@ -417,10 +457,10 @@ const Flow = () => {
             <h2 className="sidebar-title">Thư viện</h2>
             <button
               onClick={() => setViewMode('runner')}
-              className="px-3 py-1.5 bg-blue-600 text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-all flex items-center gap-1.5 shadow-lg shadow-blue-200"
+              className="btn-run-mode"
             >
               <Play size={12} fill="currentColor" />
-              Chạy Flow
+              <span>Chạy Flow</span>
             </button>
           </div>
 
@@ -493,40 +533,53 @@ const Flow = () => {
         </ReactFlow>
 
         {/* Action Button Group - Bottom Right */}
-        <Panel position="bottom-right" style={{ margin: '0 24px 24px 0', display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button
-            onClick={onLayout}
-            className="px-6 py-2.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-xl font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-purple-500/30 cursor-pointer flex items-center gap-2"
-          >
-            <Sparkles size={18} fill="currentColor" />
-            <span>Làm đẹp Flow</span>
-          </button>
+        <Panel position="bottom-right" style={{ margin: '0 24px 24px 0' }}>
+          <div className="action-panel-container">
+            <button
+              onClick={onLayout}
+              className="action-btn btn-purple"
+              title="Sắp xếp sơ đồ tự động"
+            >
+              <Sparkles size={18} fill="currentColor" />
+              <span>Làm đẹp Flow</span>
+            </button>
 
-          <div style={{ width: '1px', height: '32px', background: '#E2E8F0', margin: '0 4px' }}></div>
+            <button
+              onClick={handleAISummary}
+              disabled={isSummarizing}
+              className="action-btn btn-white"
+              title="Phân tích kịch bản bằng AI"
+            >
+              <BrainCircuit size={18} className={`${isSummarizing ? 'animate-pulse' : ''}`} />
+              <span>{isSummarizing ? 'Đang tóm tắt...' : 'Tóm tắt AI'}</span>
+            </button>
 
-          <input
-            type="file"
-            id="import-flow"
-            style={{ display: 'none' }}
-            accept=".json"
-            onChange={importFromJson}
-          />
+            <div className="separator-v"></div>
 
-          <button
-            onClick={() => document.getElementById('import-flow').click()}
-            className="glass-panel px-6 py-2.5 hover:bg-slate-50 transition-all active:scale-95 cursor-pointer text-slate-600 font-semibold border-slate-200 shadow-xl flex items-center gap-2"
-          >
-            <Upload size={18} />
-            <span>Tải kịch bản</span>
-          </button>
+            <input
+              type="file"
+              id="import-flow"
+              style={{ display: 'none' }}
+              accept=".json"
+              onChange={importFromJson}
+            />
 
-          <button
-            onClick={exportToJson}
-            className="px-8 py-2.5 bg-[#3B82F6] text-white rounded-xl font-bold hover:brightness-110 active:scale-95 transition-all shadow-lg shadow-blue-500/25 cursor-pointer flex items-center gap-2"
-          >
-            <Download size={18} />
-            <span>Lưu kịch bản</span>
-          </button>
+            <button
+              onClick={() => document.getElementById('import-flow').click()}
+              className="action-btn btn-white"
+            >
+              <Upload size={18} />
+              <span>Tải kịch bản</span>
+            </button>
+
+            <button
+              onClick={exportToJson}
+              className="action-btn btn-blue"
+            >
+              <Download size={18} />
+              <span>Lưu kịch bản</span>
+            </button>
+          </div>
         </Panel>
 
         {selectedNode && (
@@ -535,6 +588,41 @@ const Flow = () => {
             onUpdateNode={onUpdateNode}
             onClose={() => setSelectedNode(null)}
           />
+        )}
+        {summary && (
+          <div className="ai-modal-overlay">
+            <div className="ai-modal-container">
+              <div className="ai-modal-header">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500 rounded-xl shadow-lg">
+                    <BrainCircuit size={20} className="text-white" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800">Tóm tắt kịch bản AI</h3>
+                </div>
+                <button
+                  onClick={() => setSummary(null)}
+                  className="p-2 hover:bg-white rounded-xl text-slate-400 hover:text-slate-600 transition-all border-none cursor-pointer bg-transparent"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+              <div className="ai-modal-body">
+                <div className="ai-summary-content">
+                  <pre className="ai-summary-text">
+                    {summary}
+                  </pre>
+                </div>
+              </div>
+              <div className="ai-modal-footer">
+                <button
+                  onClick={() => setSummary(null)}
+                  className="btn-close-modal"
+                >
+                  Đóng tóm tắt
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </div>

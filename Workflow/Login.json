@@ -11,8 +11,8 @@
         "x": 0,
         "y": 0
       },
-      "width": 182,
-      "height": 51,
+      "width": 149,
+      "height": 48,
       "targetPosition": "left",
       "sourcePosition": "right"
     },
@@ -26,10 +26,11 @@
       "data": {
         "label": "🌍 Open URL",
         "originalId": "open-url",
-        "url": "https://dhv.ors.vn/"
+        "url": "https://dhv.ors.vn/",
+        "note": "Vào trang đăng nhập"
       },
-      "width": 133,
-      "height": 51,
+      "width": 110,
+      "height": 48,
       "selected": false,
       "positionAbsolute": {
         "x": 248,
@@ -51,10 +52,11 @@
         "originalId": "type-text",
         "selector": "//*[@id=\"form_item_account\"]",
         "method": "XPath",
-        "text": "admin"
+        "text": "admin",
+        "note": "Tìm và nhập Tài khoản"
       },
-      "width": 131,
-      "height": 51,
+      "width": 109,
+      "height": 48,
       "selected": false,
       "dragging": false,
       "targetPosition": "left",
@@ -72,14 +74,19 @@
         "originalId": "type-text",
         "method": "XPath",
         "selector": " //*[@id=\"form_item_password\"]",
-        "text": "password123"
+        "text": "password123",
+        "note": "Tìm và nhập mật khẩu"
       },
-      "width": 131,
-      "height": 51,
+      "width": 109,
+      "height": 48,
       "selected": false,
       "dragging": false,
       "targetPosition": "left",
-      "sourcePosition": "right"
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 900,
+        "y": -1.3193403298350788
+      }
     },
     {
       "id": "node_1773019623509_3",
@@ -92,14 +99,19 @@
         "label": "🖱️ Mouse Click",
         "originalId": "mouse-click",
         "method": "XPath",
-        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/form/div[5]/div/div/div/div/button/span[2]"
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/form/div[5]/div/div/div/div/button/span[2]",
+        "note": "Nhấn đăng nhập"
       },
-      "width": 149,
-      "height": 51,
+      "width": 124,
+      "height": 48,
       "selected": false,
       "dragging": false,
       "targetPosition": "left",
-      "sourcePosition": "right"
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 1200,
+        "y": -4.86040165751983
+      }
     },
     {
       "id": "node_1773019637350_4",
@@ -111,14 +123,19 @@
       "data": {
         "label": "🏁 Kết thúc",
         "isEnd": true,
-        "originalId": "end-flow"
+        "originalId": "end-flow",
+        "note": "Kết thúc flow"
       },
-      "width": 119,
-      "height": 51,
+      "width": 100,
+      "height": 48,
       "selected": true,
       "dragging": false,
       "targetPosition": "left",
-      "sourcePosition": "right"
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 1502.6386806596702,
+        "y": 1.3193403298350823
+      }
     }
   ],
   "edges": [

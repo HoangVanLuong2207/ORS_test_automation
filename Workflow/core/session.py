@@ -25,48 +25,6 @@ from core.driver import create_driver, create_wait
 from actions import ACTION_REGISTRY
 
 
-def build_execution_order(flow_data):
-    """Duyệt graph từ Start Node theo thứ tự edges."""
-    nodes = {n['id']: n for n in flow_data.get('nodes', [])}
-    edges = flow_data.get('edges', [])
-
-    adj = {}
-    for edge in edges:
-        src = edge['source']
-        tgt = edge['target']
-        if src not in adj:
-            adj[src] = []
-        adj[src].append(tgt)
-
-    start_node = None
-    for node in flow_data.get('nodes', []):
-        if node.get('data', {}).get('isStart'):
-            start_node = node
-            break
-
-    if not start_node:
-        return []
-
-    order = []
-    current_id = start_node['id']
-    visited = set()
-
-    while current_id and current_id not in visited:
-        visited.add(current_id)
-        node = nodes.get(current_id)
-        if node:
-            order.append(node)
-        # Lấy node tiếp theo (bỏ qua self-loop và các node đã duyệt)
-        next_ids = adj.get(current_id, [])
-        next_id = None
-        for nid in next_ids:
-            if nid != current_id and nid not in visited:
-                next_id = nid
-                break
-        current_id = next_id
-
-    return order
-
 
 def log(msg):
     """In log và flush ngay lập tức."""
@@ -74,38 +32,93 @@ def log(msg):
 
 
 def run_flow_on_driver(driver, wait, flow_path):
-    """Thực thi một flow trên driver hiện tại (KHÔNG tạo driver mới)."""
+    """Thực thi một flow trên driver hiện tại với khả năng rẽ nhánh (Runtime Branching)."""
     log(f"[SESSION] Dang tai kich ban: {flow_path}")
 
     with open(flow_path, 'r', encoding='utf-8') as f:
         flow_data = json.load(f)
 
-    execution_order = build_execution_order(flow_data)
-    total = len(execution_order)
+    nodes = {n['id']: n for n in flow_data.get('nodes', [])}
+    edges = flow_data.get('edges', [])
+    
+    # Map source -> [edges]
+    adj = {}
+    for edge in edges:
+        src = edge['source']
+        if src not in adj:
+            adj[src] = []
+        adj[src].append(edge)
 
-    if total == 0:
-        log("[SESSION][ERROR] Kich ban trong hoac khong hop le.")
+    # Tìm Start Node
+    current_node = None
+    for node in flow_data.get('nodes', []):
+        if node.get('data', {}).get('isStart'):
+            current_node = node
+            break
+
+    if not current_node:
+        log("[SESSION][ERROR] Khong tim thay Start Node!")
         return
 
-    log(f"[SESSION] Tong so buoc: {total}")
+    visited_count = {}
+    MAX_LOOP = 50
+    step_count = 0
 
-    for i, node in enumerate(execution_order):
-        data = node.get('data', {})
-        action_id = data.get('originalId', '')
-        label = data.get('label', action_id)
+    try:
+        while current_node:
+            node_id = current_node['id']
+            data = current_node.get('data', {})
+            action_id = data.get('originalId', '')
+            label = data.get('label', action_id)
 
-        if data.get('isStart') or data.get('isEnd'):
-            log(f"[SESSION] [{i+1}/{total}] {label} (bo qua)")
-            continue
+            # Loop detection
+            visited_count[node_id] = visited_count.get(node_id, 0) + 1
+            if visited_count[node_id] > MAX_LOOP:
+                log(f"[SESSION][ERROR] Phat hien vong lap vo han tai: {label}")
+                break
 
-        action_fn = ACTION_REGISTRY.get(action_id)
-        if action_fn:
-            log(f"[SESSION] [{i+1}/{total}] Thuc thi: {label}")
-            action_fn(driver, wait, data)
-        else:
-            log(f"[SESSION][WARN] [{i+1}/{total}] Khong tim thay handler: '{action_id}'")
+            step_count += 1
+            
+            is_start = data.get('isStart')
+            is_end = data.get('isEnd')
 
-    log("[SESSION] Kich ban hoan tat thanh cong!")
+            branch_result = None
+            if not is_start and not is_end:
+                action_fn = ACTION_REGISTRY.get(action_id)
+                if action_fn:
+                    log(f"[SESSION] [{step_count}] Thuc thi: {label}")
+                    branch_result = action_fn(driver, wait, data)
+                else:
+                    log(f"[SESSION][WARN] [{step_count}] Khong tim thay handler: '{action_id}'")
+            else:
+                log(f"[SESSION] [{step_count}] {label} (structural)")
+
+            if is_end:
+                break
+
+            # Tìm node tiếp theo
+            outgoing_edges = adj.get(node_id, [])
+            if not outgoing_edges:
+                current_node = None
+                continue
+
+            next_node_id = None
+            if branch_result:
+                for edge in outgoing_edges:
+                    if edge.get('sourceHandle') == branch_result:
+                        next_node_id = edge['target']
+                        break
+            
+            if not next_node_id:
+                next_node_id = outgoing_edges[0]['target']
+
+            current_node = nodes.get(next_node_id)
+
+        log("[SESSION] Kich ban hoan tat thanh công!")
+
+    except Exception as e:
+        log(f"[SESSION][ERROR] Loi khi thuc thi: {str(e)}")
+        raise e
 
 
 def main():

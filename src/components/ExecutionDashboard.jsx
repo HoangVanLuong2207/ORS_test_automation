@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Play, FileJson, Clock, RefreshCw, Layers, Globe, Square, Pencil } from 'lucide-react';
+import { Play, FileJson, Clock, RefreshCw, Layers, Globe, Square, Pencil, Trash2 } from 'lucide-react';
 
 const ExecutionDashboard = ({ onBack, onEditFlow }) => {
     const [flows, setFlows] = useState([]);
@@ -9,6 +9,8 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
     const [browserRunning, setBrowserRunning] = useState(false);
     const [browserLoading, setBrowserLoading] = useState(false);
     const [runningFlow, setRunningFlow] = useState(false);
+
+    const ts = () => new Date().toLocaleTimeString();
 
     const fetchFlows = async () => {
         setLoading(true);
@@ -24,6 +26,30 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
             setLoading(false);
         }
     };
+
+    const deleteFlow = async (flow) => {
+        if (!window.confirm(`Ban co chac chan muon xoa kich ban "${flow.filename}"?`)) return;
+
+        try {
+            const response = await fetch('/api/delete', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ filename: flow.filename })
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                setLogs(prev => [`[${ts()}] Da xoa kich ban: ${flow.filename}`, ...prev]);
+                if (selectedFlow?.filename === flow.filename) setSelectedFlow(null);
+                fetchFlows();
+            } else {
+                throw new Error(result.error);
+            }
+        } catch (err) {
+            setLogs(prev => [`[LOI] Khong the xoa: ${err.message}`, ...prev]);
+        }
+    };
+
 
     // Check session status on mount
     const checkSession = async () => {
@@ -129,7 +155,6 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
         }
     };
 
-    const ts = () => new Date().toLocaleTimeString();
 
     return (
         <div className="execution-dashboard">
@@ -239,6 +264,21 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
                                             }}
                                         >
                                             <Pencil size={14} />
+                                        </button>
+                                        <button
+                                            onClick={(e) => { e.stopPropagation(); deleteFlow(flow); }}
+                                            disabled={runningFlow && selectedFlow?.filename === flow.filename}
+                                            title="Xoa flow"
+                                            style={{
+                                                border: 'none',
+                                                background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.15)' : '#FFE4E6',
+                                                color: selectedFlow?.filename === flow.filename ? 'white' : '#EF4444',
+                                                width: '32px', height: '32px', borderRadius: '10px',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                cursor: 'pointer', transition: 'all 0.2s', padding: '0'
+                                            }}
+                                        >
+                                            <Trash2 size={14} />
                                         </button>
                                         <button
                                             onClick={(e) => { e.stopPropagation(); runFlow(flow); }}

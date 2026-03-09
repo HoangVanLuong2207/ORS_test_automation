@@ -226,6 +226,106 @@ const fileSavePlugin = () => ({
           res.end(JSON.stringify({ success: false, error: err.message }));
         }
 
+      } else if (req.method === 'POST' && req.url === '/api/delete') {
+        let body = '';
+        req.on('data', chunk => { body += chunk.toString(); });
+        req.on('end', () => {
+          try {
+            const { filename } = JSON.parse(body);
+            const targetDir = path.resolve(process.cwd(), 'Workflow');
+            const filePath = path.join(targetDir, `${filename}.json`);
+
+            if (fs.existsSync(filePath)) {
+              fs.unlinkSync(filePath);
+              res.statusCode = 200;
+              res.end(JSON.stringify({ success: true }));
+            } else {
+              res.statusCode = 404;
+              res.end(JSON.stringify({ success: false, error: 'File not found' }));
+            }
+          } catch (err) {
+            res.statusCode = 500;
+            res.end(JSON.stringify({ success: false, error: err.message }));
+          }
+        });
+
+      } else if (req.method === 'POST' && req.url === '/api/ai-summary') {
+        let body = '';
+        req.on('data', chunk => { body += chunk.toString(); });
+        req.on('end', () => {
+          try {
+            console.log("[AI-Summary] Received request");
+            if (!body) {
+              console.error("[AI-Summary] Empty body");
+              res.statusCode = 400;
+              res.end(JSON.stringify({ success: false, error: 'Empty request body' }));
+              return;
+            }
+            const payload = JSON.parse(body);
+            const { nodes, edges } = payload || {};
+
+            if (!Array.isArray(nodes)) {
+              console.error("[AI-Summary] Invalid nodes", nodes);
+              res.statusCode = 400;
+              res.end(JSON.stringify({ success: false, error: 'Dữ liệu kịch bản không hợp lệ (thiếu nodes).' }));
+              return;
+            }
+
+            // Build adjacency list for traversal
+            const adj = {};
+            (edges || []).forEach(edge => {
+              if (!adj[edge.source]) adj[edge.source] = [];
+              adj[edge.source].push(edge.target);
+            });
+
+            // Find start node
+            const startNode = nodes.find(n => n.data?.isStart || n.data?.originalId === 'start-flow' || n.id === 'start-node');
+            console.log("[AI-Summary] Start node detected:", startNode?.id);
+
+            if (!startNode) {
+              res.statusCode = 400;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({ success: false, error: 'Không tìm thấy nút "Bắt đầu" trong kịch bản.' }));
+              return;
+            }
+
+            // Simple traversal to collect steps
+            const steps = [];
+            const visited = new Set();
+            let currentId = startNode.id;
+
+            while (currentId && !visited.has(currentId)) {
+              visited.add(currentId);
+              const node = nodes.find(n => n.id === currentId);
+              if (node) {
+                if (!node.data?.isStart && node.data?.originalId !== 'start-flow') {
+                  const label = node.data?.label || 'Hành động không xác định';
+                  const note = node.data?.note ? `: ${node.data.note}` : '';
+                  steps.push(`${label}${note}`);
+                }
+              }
+
+              const nextNodes = adj[currentId] || [];
+              currentId = nextNodes[0];
+            }
+
+            console.log("[AI-Summary] Trace completed, steps:", steps.length);
+
+            let summaryText = steps.length > 0
+              ? "Dưới đây là tóm tắt quy trình tự động hóa của bạn:\n\n" + steps.map((s, i) => `${i + 1}. ${s}`).join('\n')
+              : "Kịch bản của bạn chưa có các bước thực thi cụ thể sau nút Bắt đầu.";
+
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ success: true, summary: summaryText }));
+          } catch (err) {
+            console.error("[AI-Summary] Error:", err);
+            res.statusCode = 500;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ success: false, error: err.message }));
+          }
+        });
+
       } else {
         next();
       }

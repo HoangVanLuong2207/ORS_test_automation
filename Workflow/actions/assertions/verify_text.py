@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def verify_text(driver, wait, node_data):
+def verify_text(driver, wait, node_data, variables):
     """Kiểm tra xem phần tử có chứa text mong muốn không."""
     by, selector = resolve_locator(node_data)
     expected_text = node_data.get("text", "")

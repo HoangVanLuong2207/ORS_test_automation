@@ -1,6 +1,6 @@
 import time
 
-def open_url(driver, wait, node_data):
+def open_url(driver, wait, node_data, variables):
     """Mở một URL trong trình duyệt."""
     url = node_data.get("url", "")
     if not url:

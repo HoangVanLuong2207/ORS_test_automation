@@ -31,22 +31,34 @@ def log(msg):
     print(msg, flush=True)
 
 
+def resolve_vars(text, variables):
+    """Thay thế {{var_name}} bằng giá trị từ variables."""
+    if not isinstance(text, str):
+        return text
+    import re
+    def replacer(match):
+        var_name = match.group(1).strip()
+        return str(variables.get(var_name, match.group(0)))
+    return re.sub(r'\{\{(.*?)\}\}', replacer, text)
+
+
 def run_flow_on_driver(driver, wait, flow_path):
     """Thực thi một flow trên driver hiện tại với khả năng rẽ nhánh (Runtime Branching)."""
     log(f"[SESSION] Dang tai kich ban: {flow_path}")
 
+    # Khoi tao trang thai bien runtime
+    variables = {}
+
     with open(flow_path, 'r', encoding='utf-8') as f:
         flow_data = json.load(f)
-
+    
+    # ... (giữ nguyên logic nodes, edges, adj)
     nodes = {n['id']: n for n in flow_data.get('nodes', [])}
     edges = flow_data.get('edges', [])
-    
-    # Map source -> [edges]
     adj = {}
     for edge in edges:
         src = edge['source']
-        if src not in adj:
-            adj[src] = []
+        if src not in adj: adj[src] = []
         adj[src].append(edge)
 
     # Tìm Start Node
@@ -87,7 +99,12 @@ def run_flow_on_driver(driver, wait, flow_path):
                 action_fn = ACTION_REGISTRY.get(action_id)
                 if action_fn:
                     log(f"[SESSION] [{step_count}] Thuc thi: {label}")
-                    branch_result = action_fn(driver, wait, data)
+                    # Resolving variables trong data truoc khi truyen vao action
+                    resolved_data = {}
+                    for k, v in data.items():
+                        resolved_data[k] = resolve_vars(v, variables)
+                    
+                    branch_result = action_fn(driver, wait, resolved_data, variables)
                 else:
                     log(f"[SESSION][WARN] [{step_count}] Khong tim thay handler: '{action_id}'")
             else:

@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def wait_element(driver, wait, node_data):
+def wait_element(driver, wait, node_data, variables):
     """Đợi phần tử xuất hiện hoặc biến mất."""
     by, selector = resolve_locator(node_data)
     condition = node_data.get("condition", "visible") # visible, hidden, present

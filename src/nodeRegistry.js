@@ -4,7 +4,7 @@ export const NODE_CATEGORIES = {
         color: '#3B82F6',
         nodes: [
             {
-                id: 'mouse-click', label: '🖱️ Mouse Click', type: 'mindMapNode',
+                id: 'mouse-click', label: '🖱️ Click chuột', type: 'mindMapNode',
                 description: 'Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['CSS Selector', 'ID', 'Class Name', 'XPath', 'Image (Hình ảnh)'] },
@@ -12,21 +12,21 @@ export const NODE_CATEGORIES = {
                 ]
             },
             {
-                id: 'type-text', label: '⌨️ Type Text', type: 'mindMapNode',
+                id: 'type-text', label: '⌨️ Nhập văn bản', type: 'mindMapNode',
                 description: 'Nhập văn bản vào một ô input hoặc textarea.',
                 props: [
                     { name: 'method', label: 'Phương thức tìm input', type: 'select', options: ['CSS Selector', 'ID', 'Class Name', 'XPath'] },
                     { name: 'selector', label: 'Giá trị tìm kiếm', type: 'text', placeholder: '#input-id' },
-                    { name: 'text', label: 'Nội dung nhập', type: 'text', placeholder: 'Hello World' }
+                    { name: 'text', label: 'Nội dung nhập', type: 'text', placeholder: 'Nhập văn bản...' }
                 ]
             },
             {
-                id: 'open-url', label: '🌍 Open URL', type: 'mindMapNode',
+                id: 'open-url', label: '🌍 Mở URL', type: 'mindMapNode',
                 description: 'Mở một địa chỉ trang web (URL) cụ thể.',
                 props: [{ name: 'url', label: 'Địa chỉ URL', type: 'text', placeholder: 'https://google.com' }]
             },
             {
-                id: 'hover-element', label: '🖱️ Hover Element', type: 'mindMapNode',
+                id: 'hover-element', label: '🖱️ Rê chuột', type: 'mindMapNode',
                 description: 'Di chuyển chuột lên trên một phần tử (hover) mà không click.',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
@@ -34,7 +34,7 @@ export const NODE_CATEGORIES = {
                 ]
             },
             {
-                id: 'scroll', label: '🖱️ Scroll Page', type: 'mindMapNode',
+                id: 'scroll', label: '🖱️ Cuộn trang', type: 'mindMapNode',
                 description: 'Cuộn trang web lên hoặc xuống theo số lượng pixel nhất định.',
                 props: [
                     { name: 'direction', label: 'Hướng', type: 'select', options: ['Xuống', 'Lên'] },
@@ -48,7 +48,7 @@ export const NODE_CATEGORIES = {
         color: '#8B5CF6',
         nodes: [
             {
-                id: 'if-condition', label: '🔀 If Condition', type: 'mindMapNode', isLogic: true, isBranching: true,
+                id: 'if-condition', label: '🔀 Điều kiện (If)', type: 'mindMapNode', isLogic: true, isBranching: true,
                 description: 'Kiểm tra một điều kiện (văn bản hoặc sự tồn tại của element) để rẽ nhánh kịch bản.',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
@@ -58,12 +58,12 @@ export const NODE_CATEGORIES = {
                 ]
             },
             {
-                id: 'wait-time', label: '⏱️ Wait Time', type: 'mindMapNode',
+                id: 'wait-time', label: '⏱️ Chờ (Giây)', type: 'mindMapNode',
                 description: 'Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).',
                 props: [{ name: 'seconds', label: 'Thời gian chờ (giây)', type: 'number', placeholder: '1' }]
             },
             {
-                id: 'wait-element', label: '⏳ Wait for Element', type: 'mindMapNode',
+                id: 'wait-element', label: '⏳ Chờ phần tử', type: 'mindMapNode',
                 description: 'Chờ cho đến khi một phần tử xuất hiện, biến mất hoặc có mặt trong DOM.',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
@@ -80,11 +80,11 @@ export const NODE_CATEGORIES = {
         ]
     },
     ASSERTIONS: {
-        label: '✅ Kiểm chứng (Assertions)',
+        label: '✅ Kiểm chứng',
         color: '#EE8033',
         nodes: [
             {
-                id: 'verify-text', label: '🔍 Verify Text', type: 'mindMapNode',
+                id: 'verify-text', label: '🔍 Kiểm tra văn bản', type: 'mindMapNode',
                 description: 'Kiểm tra xem văn bản của một phần tử có khớp với mong đợi không (Dừng kịch bản nếu sai).',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
@@ -93,7 +93,7 @@ export const NODE_CATEGORIES = {
                 ]
             },
             {
-                id: 'verify-visibility', label: '👁️ Verify Visibility', type: 'mindMapNode',
+                id: 'verify-visibility', label: '👁️ Kiểm tra hiển thị', type: 'mindMapNode',
                 description: 'Kiểm tra xem một phần tử đang hiển thị hay đang ẩn (Dừng kịch bản nếu sai).',
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
@@ -108,20 +108,24 @@ export const NODE_CATEGORIES = {
         color: '#10B981',
         nodes: [
             {
-                id: 'set-variable', label: '📦 Set Variable', type: 'mindMapNode',
-                description: 'Gán giá trị vào một biến để sử dụng ở các bước sau.',
+                id: 'variable-manager', label: '📦 Quản lý Biến', type: 'mindMapNode',
+                description: 'Lấy dữ liệu từ Web hoặc gán giá trị cố định vào một biến.',
                 props: [
-                    { name: 'name', label: 'Tên biến', type: 'text' },
-                    { name: 'value', label: 'Giá trị', type: 'text' }
+                    { name: 'type', label: 'Loại hành động', type: 'select', options: ['Lấy văn bản (Web)', 'Lấy thuộc tính (Web)', 'Gán giá trị cố định'] },
+                    { name: 'variable', label: 'Tên biến lưu trữ', type: 'text', placeholder: 'username, otp_code...' },
+                    { name: 'method', label: 'Phương thức tìm (nếu lấy từ Web)', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
+                    { name: 'selector', label: 'Selector (nếu lấy từ Web)', type: 'text' },
+                    { name: 'attribute', label: 'Tên thuộc tính (nếu lấy thuộc tính)', type: 'text', placeholder: 'href, value, src...' },
+                    { name: 'value', label: 'Giá trị cố định (nếu gán tĩnh)', type: 'text' }
                 ]
             },
             {
-                id: 'take-screenshot', label: '📸 Chụp ảnh màn hình', type: 'mindMapNode',
+                id: 'take-screenshot', label: '📸 Chụp màn hình', type: 'mindMapNode',
                 description: 'Chụp ảnh màn hình trình duyệt hiện tại.',
                 props: [{ name: 'filename', label: 'Tên file (tùy chọn)', type: 'text', placeholder: 'login_success.png' }]
             },
             {
-                id: 'ai-summary', label: '✨ AI Summarize', type: 'mindMapNode',
+                id: 'ai-summary', label: '✨ Phân tích AI', type: 'mindMapNode',
                 description: 'Sử dụng AI để tóm tắt hoặc phân tích nội dung trang web hiện tại.',
                 props: [{ name: 'prompt', label: 'Yêu cầu AI', type: 'text', placeholder: 'Tóm tắt nội dung...' }]
             },

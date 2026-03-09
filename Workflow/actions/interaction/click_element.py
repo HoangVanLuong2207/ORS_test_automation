@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def click_element(driver, wait, node_data):
+def click_element(driver, wait, data, variables):
     """Click vào một phần tử trên trang."""
     by, selector = resolve_locator(node_data)
     if not selector:

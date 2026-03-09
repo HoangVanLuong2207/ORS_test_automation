@@ -2,9 +2,9 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def hover_element(driver, wait, node_data):
+def hover_element(driver, wait, data, variables):
     """Rê chuột (hover) vào một phần tử trên trang."""
-    by, selector = resolve_locator(node_data)
+    by, selector = resolve_locator(data)
     if not selector:
         print("[HOVER][WARN] Không có selector.", flush=True)
         return

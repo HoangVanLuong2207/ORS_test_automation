@@ -9,6 +9,18 @@ from .assertions.verify_text import verify_text
 from .assertions.verify_visibility import verify_visibility
 from .logic.if_condition import if_condition
 
+from .utility.get_text import get_text
+from .utility.get_attribute import get_attribute
+
+def set_variable(driver, wait, data, variables):
+    name = data.get("name")
+    value = data.get("value")
+    if name:
+        variables[name] = value
+        print(f"[SET-VAR] {name} = {value}", flush=True)
+
+from .utility.variable_manager import variable_manager
+
 # Registry: ánh xạ tên action (từ JSON node) sang hàm Python tương ứng
 ACTION_REGISTRY = {
     "open-url": open_url,
@@ -21,4 +33,5 @@ ACTION_REGISTRY = {
     "verify-text": verify_text,
     "verify-visibility": verify_visibility,
     "if-condition": if_condition,
+    "variable-manager": variable_manager
 }

@@ -3,7 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from ..resolver import resolve_locator
 
-def if_condition(driver, wait, node_data):
+def if_condition(driver, wait, node_data, variables):
     """
     Kiểm tra điều kiện và trả về 'true' hoặc 'false' để rẽ nhánh.
     """

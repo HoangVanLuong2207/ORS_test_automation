@@ -1,7 +1,7 @@
 import os
 from datetime import datetime
 
-def take_screenshot(driver, wait, node_data):
+def take_screenshot(driver, wait, node_data, variables):
     """Chụp ảnh màn hình trình duyệt."""
     # Tạo thư mục screenshots nếu chưa có
     os.makedirs("screenshots", exist_ok=True)

@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def type_text(driver, wait, node_data):
+def type_text(driver, wait, node_data, variables):
     """Nhập text vào một phần tử trên trang."""
     by, selector = resolve_locator(node_data)
     text = node_data.get("text", "")

@@ -210,7 +210,9 @@ const Flow = () => {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
   const [searchTerm, setSearchTerm] = useState('');
-  const [collapsedCategories, setCollapsedCategories] = useState({});
+  const [collapsedCategories, setCollapsedCategories] = useState(() =>
+    Object.keys(NODE_CATEGORIES).reduce((acc, key) => ({ ...acc, [key]: true }), {})
+  );
   const [selectedNode, setSelectedNode] = useState(null);
   const [summary, setSummary] = useState(null);
   const [isSummarizing, setIsSummarizing] = useState(false);

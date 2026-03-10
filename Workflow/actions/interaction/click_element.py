@@ -3,7 +3,7 @@ from ..resolver import resolve_locator
 
 def click_element(driver, wait, data, variables):
     """Click vào một phần tử trên trang."""
-    by, selector = resolve_locator(node_data)
+    by, selector = resolve_locator(data)
     if not selector:
         print("[CLICK][WARN] Không có selector.", flush=True)
         return

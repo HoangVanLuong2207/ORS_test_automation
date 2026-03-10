@@ -73,9 +73,14 @@ export const NODE_CATEGORIES = {
                 ]
             },
             {
-                id: 'loop', label: '🔄 Vòng lặp', type: 'mindMapNode', isLogic: true,
+                id: 'loop', label: '🔄 Vòng lặp', type: 'mindMapNode', isLogic: true, isBranching: true,
                 description: 'Lặp lại một nhóm các hành động trong một số lần nhất định.',
                 props: [{ name: 'count', label: 'Số lần lặp', type: 'number', placeholder: '5' }]
+            },
+            {
+                id: 'connector', label: '⚓ Giao điểm', type: 'mindMapNode', isLogic: true,
+                description: 'Điểm hội tụ của các nhánh xử lý để cùng đi tiếp một luồng chung.',
+                props: []
             },
         ]
     },
@@ -130,6 +135,29 @@ export const NODE_CATEGORIES = {
                 props: [{ name: 'prompt', label: 'Yêu cầu AI', type: 'text', placeholder: 'Tóm tắt nội dung...' }]
             },
             { id: 'end-flow', label: '🏁 Kết thúc', type: 'mindMapNode', isEnd: true, description: 'Đánh dấu điểm kết thúc của một luồng xử lý.' },
+        ]
+    },
+    KEYBOARD: {
+        label: '⌨️ Bàn phím',
+        color: '#F59E0B',
+        nodes: [
+            {
+                id: 'press-key', label: '⌨️ Nhấn phím', type: 'mindMapNode',
+                description: 'Nhấn một phím chức năng (Enter, Tab, v.v.).',
+                props: [
+                    { name: 'key', label: 'Phím nhấn', type: 'select', options: ['ENTER', 'TAB', 'ESCAPE', 'BACKSPACE', 'DELETE', 'UP', 'DOWN', 'LEFT', 'RIGHT', 'SPACE'] },
+                    { name: 'count', label: 'Số lần nhấn', type: 'number', placeholder: '1' }
+                ]
+            },
+            {
+                id: 'key-combination', label: '⌨️ Tổ hợp phím', type: 'mindMapNode',
+                description: 'Nhấn tổ hợp phím (ví dụ: Ctrl + A).',
+                props: [
+                    { name: 'modifier', label: 'Phím chức năng', type: 'select', options: ['CONTROL', 'SHIFT', 'ALT', 'COMMAND'] },
+                    { name: 'key', label: 'Phím kết hợp', type: 'text', placeholder: 'a, c, v, v.v.' },
+                    { name: 'count', label: 'Số lần nhấn', type: 'number', placeholder: '1' }
+                ]
+            }
         ]
     }
 };

@@ -21,17 +21,25 @@ def set_variable(driver, wait, data, variables):
 
 from .utility.variable_manager import variable_manager
 
+from .logic.loop_handler import loop_handler
+
+from .interaction.keyboard_action import press_key, key_combination
+
 # Registry: ánh xạ tên action (từ JSON node) sang hàm Python tương ứng
 ACTION_REGISTRY = {
     "open-url": open_url,
     "mouse-click": click_element,
     "type-text": type_text,
     "hover-element": hover_element,
+    "press-key": press_key,
+    "key-combination": key_combination,
     "wait-time": wait_seconds,
     "take-screenshot": take_screenshot,
     "wait-element": wait_element,
     "verify-text": verify_text,
     "verify-visibility": verify_visibility,
     "if-condition": if_condition,
-    "variable-manager": variable_manager
+    "variable-manager": variable_manager,
+    "loop": loop_handler,
+    "connector": lambda driver, wait, data, variables: None
 }

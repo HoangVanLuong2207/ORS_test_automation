@@ -1,10 +1,10 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def get_text(driver, wait, node_data, variables):
+def get_text(driver, wait, data, variables):
     """Lấy văn bản của một phần tử và gán vào biến."""
-    by, selector = resolve_locator(node_data)
-    var_name = node_data.get("variable")
+    by, selector = resolve_locator(data)
+    var_name = data.get("variable")
 
     if not selector:
         print("[GET-TEXT][WARN] Không có selector.", flush=True)

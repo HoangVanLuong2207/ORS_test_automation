@@ -1,10 +1,10 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def verify_text(driver, wait, node_data, variables):
+def verify_text(driver, wait, data, variables):
     """Kiểm tra xem phần tử có chứa text mong muốn không."""
-    by, selector = resolve_locator(node_data)
-    expected_text = node_data.get("text", "")
+    by, selector = resolve_locator(data)
+    expected_text = data.get("text", "")
     
     if not selector:
         print("[ASSERT][WARN] Không có selector.", flush=True)

@@ -216,7 +216,7 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
                         </button>
                     </div>
 
-                    <div className="custom-scrollbar" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px', paddingRight: '5px' }}>
+                    <div className="custom-scrollbar" style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '8px', paddingRight: '5px' }}>
                         {loading ? (
                             [1, 2, 3].map(i => (
                                 <div key={i} className="flow-card" style={{ opacity: 0.5, borderStyle: 'dashed' }}>
@@ -228,79 +228,106 @@ const ExecutionDashboard = ({ onBack, onEditFlow }) => {
                                 <FileJson size={40} style={{ color: '#E2E8F0', marginBottom: '10px' }} />
                                 <p style={{ margin: 0, fontSize: '13px', color: '#94A3B8', fontWeight: 500 }}>Chua co kich ban Workflow</p>
                             </div>
-                        ) : (
-                            flows.map((flow) => (
-                                <div
-                                    key={flow.filename}
-                                    onClick={() => setSelectedFlow(flow)}
-                                    className={`flow-card ${selectedFlow?.filename === flow.filename ? 'active' : ''}`}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                                        <div className="icon-box" style={{
-                                            background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.2)' : '#EFF6FF',
-                                            color: selectedFlow?.filename === flow.filename ? 'white' : '#3B82F6'
-                                        }}>
-                                            <FileJson size={20} />
-                                        </div>
-                                        <div>
-                                            <h3 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 700 }}>{flow.filename}</h3>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', opacity: 0.7, fontSize: '10px', fontWeight: 600 }}>
-                                                <Clock size={12} />
-                                                <span>{new Date(flow.mtime).toLocaleString()}</span>
-                                            </div>
-                                        </div>
+                        ) : (() => {
+                            // Group flows
+                            const groups = flows.reduce((acc, flow) => {
+                                const groupName = flow.group || 'Chung';
+                                if (!acc[groupName]) acc[groupName] = [];
+                                acc[groupName].push(flow);
+                                return acc;
+                            }, {});
+
+                            return Object.entries(groups).map(([groupName, groupFlows]) => (
+                                <div key={groupName} className="flow-group-container" style={{ marginBottom: '8px' }}>
+                                    <div className="flow-group-header" style={{
+                                        display: 'flex', alignItems: 'center', gap: '8px',
+                                        padding: '8px 12px', background: '#F8FAFC', borderRadius: '12px',
+                                        fontSize: '11px', fontWeight: 800, color: '#64748B',
+                                        textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px'
+                                    }}>
+                                        <Layers size={14} className="text-blue-500" />
+                                        <span>{groupName}</span>
+                                        <span style={{ marginLeft: 'auto', opacity: 0.5 }}>{groupFlows.length}</span>
                                     </div>
-                                    <div style={{ display: 'flex', gap: '6px' }}>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); onEditFlow && onEditFlow(flow.filename); }}
-                                            title="Chinh sua flow"
-                                            style={{
-                                                border: 'none',
-                                                background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.15)' : '#F1F5F9',
-                                                color: selectedFlow?.filename === flow.filename ? 'white' : '#64748B',
-                                                width: '32px', height: '32px', borderRadius: '10px',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                cursor: 'pointer', transition: 'all 0.2s', padding: '0'
-                                            }}
-                                        >
-                                            <Pencil size={14} />
-                                        </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); deleteFlow(flow); }}
-                                            disabled={runningFlow && selectedFlow?.filename === flow.filename}
-                                            title="Xoa flow"
-                                            style={{
-                                                border: 'none',
-                                                background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.15)' : '#FFE4E6',
-                                                color: selectedFlow?.filename === flow.filename ? 'white' : '#EF4444',
-                                                width: '32px', height: '32px', borderRadius: '10px',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                cursor: 'pointer', transition: 'all 0.2s', padding: '0'
-                                            }}
-                                        >
-                                            <Trash2 size={14} />
-                                        </button>
-                                        <button
-                                            onClick={(e) => { e.stopPropagation(); runFlow(flow); }}
-                                            disabled={!browserRunning || runningFlow}
-                                            style={{
-                                                border: 'none',
-                                                background: !browserRunning ? '#94A3B8' :
-                                                    selectedFlow?.filename === flow.filename ? 'white' : '#3B82F6',
-                                                color: selectedFlow?.filename === flow.filename ? '#3B82F6' : 'white',
-                                                width: '32px', height: '32px', borderRadius: '10px',
-                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                cursor: !browserRunning ? 'not-allowed' : 'pointer',
-                                                transition: 'all 0.2s', padding: '0',
-                                                opacity: !browserRunning ? 0.5 : 1
-                                            }}
-                                        >
-                                            <Play size={16} fill="currentColor" />
-                                        </button>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '8px' }}>
+                                        {groupFlows.map((flow) => (
+                                            <div
+                                                key={flow.filename}
+                                                onClick={() => setSelectedFlow(flow)}
+                                                className={`flow-card ${selectedFlow?.filename === flow.filename ? 'active' : ''}`}
+                                            >
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '15px', overflow: 'hidden' }}>
+                                                    <div className="icon-box" style={{
+                                                        background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.2)' : '#EFF6FF',
+                                                        color: selectedFlow?.filename === flow.filename ? 'white' : '#3B82F6',
+                                                        flexShrink: 0
+                                                    }}>
+                                                        <FileJson size={20} />
+                                                    </div>
+                                                    <div style={{ overflow: 'hidden' }}>
+                                                        <h3 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                            {flow.filename.split('/').pop()}
+                                                        </h3>
+                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px', opacity: 0.7, fontSize: '10px', fontWeight: 600 }}>
+                                                            <Clock size={12} />
+                                                            <span>{new Date(flow.mtime).toLocaleString()}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); onEditFlow && onEditFlow(flow.filename); }}
+                                                        title="Chinh sua flow"
+                                                        style={{
+                                                            border: 'none',
+                                                            background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.15)' : '#F1F5F9',
+                                                            color: selectedFlow?.filename === flow.filename ? 'white' : '#64748B',
+                                                            width: '32px', height: '32px', borderRadius: '10px',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            cursor: 'pointer', transition: 'all 0.2s', padding: '0'
+                                                        }}
+                                                    >
+                                                        <Pencil size={14} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); deleteFlow(flow); }}
+                                                        disabled={runningFlow && selectedFlow?.filename === flow.filename}
+                                                        title="Xoa flow"
+                                                        style={{
+                                                            border: 'none',
+                                                            background: selectedFlow?.filename === flow.filename ? 'rgba(255,255,255,0.15)' : '#FFE4E6',
+                                                            color: selectedFlow?.filename === flow.filename ? 'white' : '#EF4444',
+                                                            width: '32px', height: '32px', borderRadius: '10px',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            cursor: 'pointer', transition: 'all 0.2s', padding: '0'
+                                                        }}
+                                                    >
+                                                        <Trash2 size={14} />
+                                                    </button>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); runFlow(flow); }}
+                                                        disabled={!browserRunning || runningFlow}
+                                                        style={{
+                                                            border: 'none',
+                                                            background: !browserRunning ? '#94A3B8' :
+                                                                selectedFlow?.filename === flow.filename ? 'white' : '#3B82F6',
+                                                            color: selectedFlow?.filename === flow.filename ? '#3B82F6' : 'white',
+                                                            width: '32px', height: '32px', borderRadius: '10px',
+                                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                            cursor: !browserRunning ? 'not-allowed' : 'pointer',
+                                                            transition: 'all 0.2s', padding: '0',
+                                                            opacity: !browserRunning ? 0.5 : 1
+                                                        }}
+                                                    >
+                                                        <Play size={16} fill="currentColor" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
-                            ))
-                        )}
+                            ));
+                        })()}
                     </div>
                 </div>
 

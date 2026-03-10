@@ -1,0 +1,352 @@
+{
+  "nodes": [
+    {
+      "id": "start-node",
+      "type": "mindMapNode",
+      "data": {
+        "label": "🚀 Bắt đầu kịch bản",
+        "isStart": true
+      },
+      "position": {
+        "x": 50,
+        "y": 50
+      },
+      "width": 149,
+      "height": 50,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 155.20740877270532,
+        "y": 70.11318108889957
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773027258552_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 480,
+        "y": 50
+      },
+      "data": {
+        "label": "🌍 Mở URL",
+        "description": "Mở một địa chỉ trang web (URL) cụ thể.",
+        "originalId": "open-url",
+        "color": "#3B82F6",
+        "url": "https://dhv.ors.vn/",
+        "note": "Vào dhv.ors"
+      },
+      "width": 97,
+      "height": 50,
+      "selected": false,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 585.2074087727053,
+        "y": 70.11318108889957
+      }
+    },
+    {
+      "id": "node_1773027279751_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 910,
+        "y": 50
+      },
+      "data": {
+        "label": "🔀 Điều kiện (If)",
+        "description": "Kiểm tra một điều kiện (văn bản hoặc sự tồn tại của element) để rẽ nhánh kịch bản.",
+        "isLogic": true,
+        "isBranching": true,
+        "originalId": "if-condition",
+        "color": "#8B5CF6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/h2",
+        "operator": "Tồn tại",
+        "value": "Đăng nhập",
+        "note": "Kiểm tra đã đăng nhập hay chưa"
+      },
+      "width": 126,
+      "height": 91,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 503.1316461450757,
+        "y": 138.6975193518493
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027395963_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1340,
+        "y": 92.83988044098271
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_account\"]",
+        "text": "admin",
+        "note": "Tìm và nhập tài khoản"
+      },
+      "width": 133,
+      "height": 50,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1340,
+        "y": 92.83988044098271
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027422820_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1770,
+        "y": 95
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "selector": "//*[@id=\"form_item_password\"]",
+        "text": "password123",
+        "method": "XPath",
+        "note": "Tìm và nhập mật khẩu"
+      },
+      "width": 133,
+      "height": 50,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1668,
+        "y": 71
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773027450342_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2201.8693403298353,
+        "y": 95
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/form/div[5]/div/div/div/div/button",
+        "note": "Bấm đăng nhập"
+      },
+      "width": 117,
+      "height": 50,
+      "selected": true,
+      "positionAbsolute": {
+        "x": 2201.8693403298353,
+        "y": 95
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027677308_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1167.8655172413794,
+        "y": 455.64685157421286
+      },
+      "data": {
+        "label": "🌍 Mở URL",
+        "description": "Mở một địa chỉ trang web (URL) cụ thể.",
+        "originalId": "open-url",
+        "color": "#3B82F6",
+        "url": "https://dhv.ors.vn/master-data/products/index",
+        "note": "vào trang sản phẩm"
+      },
+      "width": 97,
+      "height": 50,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1167.8655172413794,
+        "y": 455.64685157421286
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773028522432_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1369.5152242256024,
+        "y": 455.2425273830896
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "note": "Click chọn danh mục ",
+        "selector": "/html/body/div[1]/section/section/section/div[3]/div[1]/div[1]/form/div[1]/div[1]/div/div[2]/div/div/div/div/span[2]"
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 1369.5152242256024,
+        "y": 455.2425273830896
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773028593646_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1602.7881036648207,
+        "y": 456.2700530855721
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "selector": "/html/body/div[7]/div/div/div/div[2]/div[1]/div/div/div[2]/div",
+        "method": "XPath",
+        "note": "Chọn tab nguyên vật liệu"
+      },
+      "width": 117,
+      "height": 50,
+      "selected": false,
+      "dragging": false
+    },
+    {
+      "id": "node_1773028854258_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1925.6281109445279,
+        "y": 501.5211959580783
+      },
+      "data": {
+        "label": "🏁 Kết thúc",
+        "description": "Đánh dấu điểm kết thúc của một luồng xử lý.",
+        "isEnd": true,
+        "originalId": "end-flow",
+        "color": "#10B981"
+      },
+      "width": 100,
+      "height": 50
+    }
+  ],
+  "edges": [
+    {
+      "source": "start-node",
+      "sourceHandle": null,
+      "target": "node_1773027258552_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-start-node-node_1773027258552_0",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027258552_0",
+      "sourceHandle": null,
+      "target": "node_1773027279751_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027258552_0-node_1773027279751_1",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027279751_1",
+      "sourceHandle": "true",
+      "target": "node_1773027395963_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027279751_1true-node_1773027395963_2",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027395963_2",
+      "sourceHandle": null,
+      "target": "node_1773027422820_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027395963_2-node_1773027422820_3",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027422820_3",
+      "sourceHandle": null,
+      "target": "node_1773027450342_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027422820_3-node_1773027450342_4",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027279751_1",
+      "sourceHandle": "false",
+      "target": "node_1773027677308_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027279751_1false-node_1773027677308_0",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027450342_4",
+      "sourceHandle": null,
+      "target": "node_1773027677308_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027450342_4-node_1773027677308_0",
+      "type": "smoothstep",
+      "selected": false
+    },
+    {
+      "source": "node_1773027677308_0",
+      "sourceHandle": null,
+      "target": "node_1773028522432_1",
+      "targetHandle": null,
+      "type": "smoothstep",
+      "id": "reactflow__edge-node_1773027677308_0-node_1773028522432_1",
+      "selected": false
+    },
+    {
+      "source": "node_1773028522432_1",
+      "sourceHandle": null,
+      "target": "node_1773028593646_2",
+      "targetHandle": null,
+      "type": "smoothstep",
+      "id": "reactflow__edge-node_1773028522432_1-node_1773028593646_2"
+    },
+    {
+      "source": "node_1773028593646_2",
+      "sourceHandle": null,
+      "target": "node_1773028854258_3",
+      "targetHandle": null,
+      "type": "smoothstep",
+      "id": "reactflow__edge-node_1773028593646_2-node_1773028854258_3"
+    }
+  ],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

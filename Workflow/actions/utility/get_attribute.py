@@ -1,11 +1,11 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def get_attribute(driver, wait, node_data, variables):
+def get_attribute(driver, wait, data, variables):
     """Lấy giá trị thuộc tính của một phần tử và gán vào biến."""
-    by, selector = resolve_locator(node_data)
-    attribute = node_data.get("attribute")
-    var_name = node_data.get("variable")
+    by, selector = resolve_locator(data)
+    attribute = data.get("attribute")
+    var_name = data.get("variable")
 
     if not selector or not attribute or not var_name:
         print("[GET-ATTR][WARN] Thiếu thông tin (selector, attribute hoặc variable).", flush=True)

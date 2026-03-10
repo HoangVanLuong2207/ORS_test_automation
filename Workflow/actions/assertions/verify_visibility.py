@@ -1,10 +1,10 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def verify_visibility(driver, wait, node_data, variables):
+def verify_visibility(driver, wait, data, variables):
     """Kiểm tra phần tử có hiển thị hay không."""
-    by, selector = resolve_locator(node_data)
-    expected_val = node_data.get("visible", "Có")
+    by, selector = resolve_locator(data)
+    expected_val = data.get("visible", "Có")
     # Hỗ trợ tiếng Việt và Boolean
     if str(expected_val).lower() in ["có", "true", "yes"]:
         expected = True

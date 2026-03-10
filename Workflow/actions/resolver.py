@@ -1,9 +1,9 @@
 from selenium.webdriver.common.by import By
 
-def resolve_locator(node_data):
+def resolve_locator(data):
     """Chuyển đổi method + selector từ JSON thành (By.xxx, selector)."""
-    method = node_data.get("method", "XPath")
-    selector = node_data.get("selector", "")
+    method = data.get("method", "XPath")
+    selector = data.get("selector", "")
 
     method_map = {
         "XPath": By.XPATH,

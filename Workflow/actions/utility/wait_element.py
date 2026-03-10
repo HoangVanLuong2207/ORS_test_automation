@@ -1,10 +1,10 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
 
-def wait_element(driver, wait, node_data, variables):
+def wait_element(driver, wait, data, variables):
     """Đợi phần tử xuất hiện hoặc biến mất."""
-    by, selector = resolve_locator(node_data)
-    condition = node_data.get("condition", "visible") # visible, hidden, present
+    by, selector = resolve_locator(data)
+    condition = data.get("condition", "visible") # visible, hidden, present
     # Hỗ trợ tiếng Việt
     condition_map = {
         "Hiển thị": "visible",
@@ -13,7 +13,7 @@ def wait_element(driver, wait, node_data, variables):
     }
     condition = condition_map.get(condition, condition)
     
-    timeout = int(node_data.get("timeout", 10))
+    timeout = int(data.get("timeout", 10))
     
     if not selector:
         print("[WAIT_EL][WARN] Không có selector.", flush=True)

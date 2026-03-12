@@ -1,4 +1,3 @@
-
 ## 🛠 Hướng dẫn cài đặt
 
 Để chạy được dự án này, máy bạn cần cài đặt **Node.js** và **Python 3**.

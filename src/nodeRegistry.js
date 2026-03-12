@@ -74,8 +74,12 @@ export const NODE_CATEGORIES = {
             },
             {
                 id: 'loop', label: '🔄 Vòng lặp', type: 'mindMapNode', isLogic: true, isBranching: true,
-                description: 'Lặp lại một nhóm các hành động trong một số lần nhất định.',
-                props: [{ name: 'count', label: 'Số lần lặp', type: 'number', placeholder: '5' }]
+                description: 'Lặp lại một nhóm các hành động trong một số lần nhất định hoặc duyệt qua mảng.',
+                props: [
+                    { name: 'use_array', label: 'Lặp qua mảng dữ liệu', type: 'select', options: ['Không', 'Có'] },
+                    { name: 'array_name', label: 'Tên biến mảng (nếu lặp mảng)', type: 'text', placeholder: 'danh_sach_ten' },
+                    { name: 'count', label: 'Số lần lặp (nếu không lặp mảng)', type: 'number', placeholder: '5' }
+                ]
             },
             {
                 id: 'connector', label: '⚓ Giao điểm', type: 'mindMapNode', isLogic: true,
@@ -94,7 +98,8 @@ export const NODE_CATEGORIES = {
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
                     { name: 'selector', label: 'Giá trị tìm kiếm', type: 'text' },
-                    { name: 'text', label: 'Văn bản mong đợi', type: 'text', placeholder: 'Thành công' }
+                    { name: 'text', label: 'Văn bản mong đợi', type: 'text', placeholder: 'Thành công' },
+                    { name: 'timeout', label: 'Timeout (giây)', type: 'number', placeholder: '10' }
                 ]
             },
             {
@@ -103,7 +108,8 @@ export const NODE_CATEGORIES = {
                 props: [
                     { name: 'method', label: 'Phương thức tìm', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
                     { name: 'selector', label: 'Giá trị tìm kiếm', type: 'text' },
-                    { name: 'visible', label: 'Mong đợi hiển thị', type: 'select', options: ['Có', 'Không'] }
+                    { name: 'visible', label: 'Mong đợi hiển thị', type: 'select', options: ['Có', 'Không'] },
+                    { name: 'timeout', label: 'Timeout (giây)', type: 'number', placeholder: '10' }
                 ]
             },
         ]
@@ -114,14 +120,22 @@ export const NODE_CATEGORIES = {
         nodes: [
             {
                 id: 'variable-manager', label: '📦 Quản lý Biến', type: 'mindMapNode',
-                description: 'Lấy dữ liệu từ Web hoặc gán giá trị cố định vào một biến.',
+                description: 'Lấy dữ liệu từ Web hoặc gán mảng/giá trị cố định.',
                 props: [
-                    { name: 'type', label: 'Loại hành động', type: 'select', options: ['Lấy văn bản (Web)', 'Lấy thuộc tính (Web)', 'Gán giá trị cố định'] },
+                    { name: 'type', label: 'Loại hành động', type: 'select', options: ['Gán giá trị cố định', 'Khởi tạo mảng (phân tách bằng dấu phẩy)', 'Lấy văn bản (Web)', 'Lấy thuộc tính (Web)', 'Lấy danh sách văn bản (Web)'] },
                     { name: 'variable', label: 'Tên biến lưu trữ', type: 'text', placeholder: 'username, otp_code...' },
                     { name: 'method', label: 'Phương thức tìm (nếu lấy từ Web)', type: 'select', options: ['XPath', 'CSS Selector', 'ID', 'Class Name'] },
                     { name: 'selector', label: 'Selector (nếu lấy từ Web)', type: 'text' },
                     { name: 'attribute', label: 'Tên thuộc tính (nếu lấy thuộc tính)', type: 'text', placeholder: 'href, value, src...' },
-                    { name: 'value', label: 'Giá trị cố định (nếu gán tĩnh)', type: 'text' }
+                    { name: 'regex', label: 'Lọc bằng Regex (Tùy chọn)', type: 'text', placeholder: 'VD: \\d+ (Lấy số)' },
+                    { name: 'value', label: 'Giá trị (Gán tĩnh hoặc mảng)', type: 'text', placeholder: 'Giá trị 1, Giá trị 2...' }
+                ]
+            },
+            {
+                id: 'data-table', label: '📊 Bảng dữ liệu Excel', type: 'mindMapNode',
+                description: 'Nhập dữ liệu nhiều cột/hàng từ Excel (CSV). Tự động tạo mảng cho từng cột kiến.',
+                props: [
+                    { name: 'data_table', label: 'Nội dung bảng (Dòng đầu là tiêu đề)', type: 'textarea', placeholder: "congdoan, thietbi\nLami, Lami-01\nMarking, Marking-01" }
                 ]
             },
             {

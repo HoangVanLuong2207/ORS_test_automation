@@ -1,14 +1,3 @@
-# ORS Test Automation 🚀
-
-Chào mừng bạn đến với hệ thống tự động hóa kịch bản kiểm thử dựa trên sơ đồ tư duy (Mind-map). Hệ thống này cho phép bạn xây dựng, quản lý và thực thi các luồng tự động hóa trình duyệt một cách trực quan.
-
-## 🌟 Tính năng chính
-- **Mind-Map Flow Builder**: Xây dựng kịch bản bằng cách kéo thả các node hành động (Click, Type, Open URL, Logic...).
-- **AI Flow Summarizer**: Tóm tắt kịch bản của bạn thành văn bản thuần túy bằng AI dựa trên các ghi chú.
-- **Execution Dashboard**: Chạy kịch bản trực tiếp trên trình duyệt Chrome và theo dõi log thời gian thực.
-- **Stealth Mode**: Tích hợp các kỹ thuật tránh phát hiện bot (Automation controlled, Blink features).
-
----
 
 ## 🛠 Hướng dẫn cài đặt
 
@@ -72,5 +61,3 @@ Sau đó, truy cập địa chỉ: `http://localhost:5173`
 ## 💡 Lưu ý cho người mới
 - Mỗi node hành động có phần **"Ghi chú cho AI"**. Hãy điền vào đây để tính năng **Tóm tắt AI** hoạt động chính xác nhất.
 - Hệ thống hỗ trợ rẽ nhánh logic (Branching) dựa trên kết quả trả về của các node kiểm tra.
-
-Chúc bạn có những trải nghiệm tự động hóa tuyệt vời! 🛠️✨

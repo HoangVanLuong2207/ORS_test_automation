@@ -1,5 +1,6 @@
 from .get_text import get_text
 from .get_attribute import get_attribute
+from .get_text_list import get_text_list
 
 def variable_manager(driver, wait, data, variables):
     """
@@ -12,7 +13,21 @@ def variable_manager(driver, wait, data, variables):
     
     elif action_type == "Lấy thuộc tính (Web)":
         return get_attribute(driver, wait, data, variables)
-    
+        
+    elif action_type == "Lấy danh sách văn bản (Web)":
+        return get_text_list(driver, wait, data, variables)
+        
+    elif action_type == "Khởi tạo mảng (phân tách bằng dấu phẩy)":
+        name = data.get("variable")
+        value_str = data.get("value", "")
+        if name:
+            # Tách mảng và loại bỏ khoảng trắng thừa
+            items = [item.strip() for item in value_str.split(",") if item.strip()]
+            variables[name] = items
+            print(f"[VAR-MANAGER] Khởi tạo mảng '{name}' với {len(items)} phần tử.", flush=True)
+        else:
+            print("[VAR-MANAGER][WARN] Thiếu tên biến để khởi tạo mảng.", flush=True)
+
     else: # Gán giá trị cố định
         name = data.get("variable")
         value = data.get("value")

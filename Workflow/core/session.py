@@ -31,20 +31,73 @@ def log(msg):
     print(msg, flush=True)
 
 
-def resolve_vars(text, variables):
-    """Thay thế {{var_name}} bằng giá trị từ variables."""
-    if not isinstance(text, str):
-        return text
-    import re
-    def replacer(match):
-        var_name = match.group(1).strip()
-        return str(variables.get(var_name, match.group(0)))
-    return re.sub(r'\{\{(.*?)\}\}', replacer, text)
+def resolve_variables(data, variables):
+    """
+    Duyệt qua dữ liệu node (dict hoặc list) và thay thế các placeholder {{var_name}}
+    bằng giá trị thực từ dictionary variables.
+    Hỗ trợ:
+    - {{tên_biến}}: Tự động lấy theo loop_index nếu là mảng và đang lặp.
+    - {{tên_mảng[chỉ_số]}}: Lấy theo chỉ số cụ thể.
+    """
+    if isinstance(data, str):
+        import re
+        # Tìm tất cả các mẫu {{biến}}
+        matches = re.findall(r'\{\{(.*?)\}\}', data)
+        for match in matches:
+            raw_match = match.strip()
+            val = None
+            
+            # 1. Hỗ trợ truy cập mảng tường minh: biến[chỉ_số]
+            array_match = re.match(r'^(.*?)\[(.*?)\]$', raw_match)
+            if array_match:
+                arr_name = array_match.group(1).strip()
+                idx_key = array_match.group(2).strip()
+                
+                if arr_name in variables:
+                    arr = variables[arr_name]
+                    try:
+                        if idx_key.isdigit():
+                            idx = int(idx_key)
+                        else:
+                            idx = int(variables.get(idx_key, 0))
+                        
+                        if isinstance(arr, list) and 0 <= idx < len(arr):
+                            val = arr[idx]
+                        else:
+                            val = f"[Error: Index {idx} out of range for {arr_name}]"
+                    except:
+                        val = f"[Error: Invalid index {idx_key}]"
+            else:
+                # 2. Truy cập biến thông thường hoặc "Magic Indexing" cho mảng trong loop
+                if raw_match in variables:
+                    val = variables[raw_match]
+                    # Nếu là mảng và đang trong vòng lặp, tự động lấy phần tử hiện tại
+                    if isinstance(val, list) and "loop_index" in variables:
+                        try:
+                            idx = int(variables["loop_index"])
+                            if 0 <= idx < len(val):
+                                val = val[idx]
+                        except:
+                            pass
+            
+            if val is not None:
+                # Nếu kết quả vẫn là list/dict (sau khi resolve), convert sang string JSON
+                if isinstance(val, (list, dict)):
+                    import json
+                    val = json.dumps(val, ensure_ascii=False)
+                data = data.replace(f'{{{{{match}}}}}', str(val))
+                
+        return data
+    elif isinstance(data, list):
+        return [resolve_variables(item, variables) for item in data]
+    elif isinstance(data, dict):
+        return {k: resolve_variables(v, variables) for k, v in data.items()}
+    return data
 
 
 def run_flow_on_driver(driver, wait, flow_path):
     """Thực thi một flow trên driver hiện tại với khả năng rẽ nhánh (Runtime Branching)."""
-    log(f"[SESSION] Dang tai kich ban: {flow_path}")
+    log(f"[SESSION] Đang tải kịch bản: {flow_path}")
 
     # Khoi tao trang thai bien runtime
     variables = {}
@@ -52,7 +105,6 @@ def run_flow_on_driver(driver, wait, flow_path):
     with open(flow_path, 'r', encoding='utf-8') as f:
         flow_data = json.load(f)
     
-    # ... (giữ nguyên logic nodes, edges, adj)
     nodes = {n['id']: n for n in flow_data.get('nodes', [])}
     edges = flow_data.get('edges', [])
     adj = {}
@@ -69,24 +121,30 @@ def run_flow_on_driver(driver, wait, flow_path):
             break
 
     if not current_node:
-        log("[SESSION][ERROR] Khong tim thay Start Node!")
+        log("[SESSION][ERROR] Không tìm thấy Start Node!")
         return
 
     visited_count = {}
-    MAX_LOOP = 50
+    MAX_LOOP = 500
     step_count = 0
 
     try:
         while current_node:
             node_id = current_node['id']
-            data = current_node.get('data', {})
+            raw_data = current_node.get('data', {})
+            
+            # Resolve biến trước khi truyền vào action
+            data = resolve_variables(raw_data, variables)
+            # Quan trọng: Gán ID để loop_handler nhận diện counter
+            data["id"] = node_id
+
             action_id = data.get('originalId', '')
             label = data.get('label', action_id)
 
             # Loop detection
             visited_count[node_id] = visited_count.get(node_id, 0) + 1
             if visited_count[node_id] > MAX_LOOP:
-                log(f"[SESSION][ERROR] Phat hien vong lap vo han tai: {label}")
+                log(f"[SESSION][ERROR] Phát hiện vòng lặp vô hạn tại: {label}")
                 break
 
             step_count += 1
@@ -98,15 +156,17 @@ def run_flow_on_driver(driver, wait, flow_path):
             if not is_start and not is_end:
                 action_fn = ACTION_REGISTRY.get(action_id)
                 if action_fn:
-                    log(f"[SESSION] [{step_count}] Thuc thi: {label}")
-                    # Resolving variables trong data truoc khi truyen vao action
-                    resolved_data = {}
-                    for k, v in data.items():
-                        resolved_data[k] = resolve_vars(v, variables)
+                    log(f"[SESSION] [{step_count}] Thực thi: {label}")
                     
-                    branch_result = action_fn(driver, wait, resolved_data, variables)
+                    # Chạy action và truyền bộ nhớ biến vào
+                    import inspect
+                    sig = inspect.signature(action_fn)
+                    if 'variables' in sig.parameters:
+                        branch_result = action_fn(driver, wait, data, variables)
+                    else:
+                        branch_result = action_fn(driver, wait, data)
                 else:
-                    log(f"[SESSION][WARN] [{step_count}] Khong tim thay handler: '{action_id}'")
+                    log(f"[SESSION][WARN] [{step_count}] Không tìm thấy handler: '{action_id}'")
             else:
                 log(f"[SESSION] [{step_count}] {label} (structural)")
 
@@ -131,10 +191,13 @@ def run_flow_on_driver(driver, wait, flow_path):
 
             current_node = nodes.get(next_node_id)
 
-        log("[SESSION] Kich ban hoan tat thanh công!")
+        log("[SESSION] ✅ Kịch bản hoàn tất thành công!")
 
     except Exception as e:
-        log(f"[SESSION][ERROR] Loi khi thuc thi: {str(e)}")
+        log(f"[SESSION][ERROR] Lỗi khi thực thi: {str(e)}")
+        # In thêm traceback để dễ debug
+        import traceback
+        traceback.print_exc()
         raise e
 
 

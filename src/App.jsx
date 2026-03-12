@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import ReactFlow, {
   addEdge,
+  updateEdge,
   Background,
   Controls,
   applyEdgeChanges,
@@ -9,12 +10,15 @@ import ReactFlow, {
   useReactFlow,
   Handle,
   Position,
-  Panel
+  Panel,
+  getSmoothStepPath,
+  EdgeLabelRenderer,
+  MarkerType,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './index.css';
 import { NODE_CATEGORIES, getNodeMetadata } from './nodeRegistry';
-import { Search, ChevronDown, ChevronRight, Settings2, Code, X, Download, Upload, Play, Sparkles, BrainCircuit, RotateCcw, RotateCw, Copy, ClipboardPaste } from 'lucide-react';
+import { Search, ChevronDown, ChevronRight, Settings2, Code, X, Download, Upload, Play, Sparkles, BrainCircuit, RotateCcw, RotateCw, Copy, ClipboardPaste, Layers } from 'lucide-react';
 import PropertyPanel from './components/PropertyPanel';
 import ExecutionDashboard from './components/ExecutionDashboard';
 
@@ -183,7 +187,7 @@ const getLayoutedElements = (originalNodes, originalEdges, direction = 'LR', nod
     const isLayouted = !nodeIds || (nodeIdsSet.has(edge.source) && nodeIdsSet.has(edge.target));
     return {
       ...edge,
-      type: isLayouted ? 'smoothstep' : edge.type,
+      type: isLayouted ? 'adjustable' : edge.type || 'adjustable',
     };
   });
 
@@ -350,6 +354,226 @@ const MindMapNode = ({ id, data, selected }) => {
   );
 };
 
+// --- Custom Adjustable Edge ---
+const AdjustableEdge = ({
+  id,
+  sourceX,
+  sourceY,
+  targetX,
+  targetY,
+  sourcePosition,
+  targetPosition,
+  style = {},
+  markerEnd,
+  data,
+  selected,
+}) => {
+  const { setEdges } = useReactFlow();
+  const [hovered, setHovered] = useState(false);
+  const pathRef = useRef(null);
+  const [edgeArrows, setEdgeArrows] = useState([]);
+
+  // Calculate mid-path arrows
+  React.useLayoutEffect(() => {
+    if (pathRef.current) {
+      const length = pathRef.current.getTotalLength();
+      if (length > 40) { // Only show mid-arrows if path is long enough
+        // Define points at 33% and 66%
+        const points = [0.33, 0.66].map(percent => {
+          const point = pathRef.current.getPointAtLength(length * percent);
+          // Get a point slightly further to calculate rotation
+          const nextPoint = pathRef.current.getPointAtLength(Math.min(length * percent + 1, length));
+          const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x) * (180 / Math.PI);
+          return { x: point.x, y: point.y, angle };
+        });
+        setEdgeArrows(points);
+      } else {
+        setEdgeArrows([]);
+      }
+    }
+  }, [sourceX, sourceY, targetX, targetY, data?.pathPoints]);
+
+  // Mảng các điểm neo (Waypoints)
+  const pathPoints = data?.pathPoints || [];
+
+  // Tạo chuỗi tọa độ cho đường đi SVG (M source L p1 L p2 ... L target)
+  const generatePath = () => {
+    let d = `M ${sourceX},${sourceY}`;
+    pathPoints.forEach(p => {
+      d += ` L ${p.x},${p.y}`;
+    });
+    d += ` L ${targetX},${targetY}`;
+    return d;
+  };
+
+  // Nếu không có điểm neo nào, dùng đường SmoothStep mặc định
+  const [defaultPath] = getSmoothStepPath({
+    sourceX,
+    sourceY,
+    sourcePosition,
+    targetX,
+    targetY,
+    targetPosition,
+  });
+
+  const finalPath = pathPoints.length > 0 ? generatePath() : defaultPath;
+
+  // Thêm điểm neo mới khi ALT + CLICK vào dây
+  const onPathClick = (event) => {
+    // Nếu không nhấn ALT, để sự kiện trôi đi (bubble) để React Flow chọn dây
+    if (!event.altKey) return;
+
+    event.stopPropagation();
+    const svg = event.currentTarget.ownerSVGElement;
+    if (!svg) return;
+
+    const CTM = svg.getScreenCTM();
+    if (!CTM) return;
+
+    const point = svg.createSVGPoint();
+    point.x = event.clientX;
+    point.y = event.clientY;
+    const flowPoint = point.matrixTransform(CTM.inverse());
+
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === id) {
+          const currentPoints = edge.data?.pathPoints || [];
+          return {
+            ...edge,
+            data: {
+              ...edge.data,
+              pathPoints: [...currentPoints, { x: flowPoint.x, y: flowPoint.y }]
+            }
+          };
+        }
+        return edge;
+      })
+    );
+  };
+
+  const updatePoint = (index, newX, newY) => {
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === id) {
+          const newPoints = [...(edge.data?.pathPoints || [])];
+          newPoints[index] = { x: newX, y: newY };
+          return { ...edge, data: { ...edge.data, pathPoints: newPoints } };
+        }
+        return edge;
+      })
+    );
+  };
+
+  const removePoint = (index) => {
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === id) {
+          const newPoints = (edge.data?.pathPoints || []).filter((_, i) => i !== index);
+          return { ...edge, data: { ...edge.data, pathPoints: newPoints } };
+        }
+        return edge;
+      })
+    );
+  };
+
+  return (
+    <>
+      <path
+        id={id}
+        ref={pathRef}
+        style={{ ...style }}
+        className="react-flow__edge-path"
+        d={finalPath}
+        markerEnd={markerEnd}
+      />
+
+      {/* Interaction path - much wider to make ALT+CLICK easy */}
+      <path
+        className="react-flow__edge-interaction"
+        d={finalPath}
+        fill="none"
+        stroke="transparent"
+        strokeWidth={20}
+        style={{ cursor: 'copy', pointerEvents: 'all' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        onClick={onPathClick}
+      />
+
+      {/* Renders small arrows along the path */}
+      {edgeArrows.map((arrow, i) => (
+        <path
+          key={`${id}-mid-${i}`}
+          d="M -4 -3 L 2 0 L -4 3 Z" // Smaller, sleek arrow head
+          fill={markerEnd?.color || '#94a3b8'}
+          style={{
+            transform: `translate(${arrow.x}px, ${arrow.y}px) rotate(${arrow.angle}deg)`,
+            pointerEvents: 'none',
+            opacity: 1,
+            transition: 'opacity 0.2s',
+          }}
+        />
+      ))}
+
+      {(selected || hovered || pathPoints.length > 0) && (
+        <EdgeLabelRenderer>
+          {pathPoints.map((p, index) => (
+            <div
+              key={`${id}-p-${index}`}
+              style={{
+                position: 'absolute',
+                transform: `translate(-50%, -50%) translate(${p.x}px,${p.y}px)`,
+                pointerEvents: 'all',
+              }}
+              className="nodrag nopan"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+            >
+              <div
+                className="edge-waypoint"
+                onMouseDown={(event) => {
+                  event.stopPropagation();
+                  
+                  // Delete on ALT + Click
+                  if (event.altKey) {
+                    removePoint(index);
+                    return;
+                  }
+
+                  const startX = event.clientX;
+                  const startY = event.clientY;
+                  const initialX = p.x;
+                  const initialY = p.y;
+
+                  const onMouseMove = (moveEvent) => {
+                    const dx = moveEvent.clientX - startX;
+                    const dy = moveEvent.clientY - startY;
+                    updatePoint(index, initialX + dx, initialY + dy);
+                  };
+
+                  const onMouseUp = () => {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.removeEventListener('mouseup', onMouseUp);
+                  };
+
+                  document.addEventListener('mousemove', onMouseMove);
+                  document.addEventListener('mouseup', onMouseUp);
+                }}
+                onDoubleClick={(e) => {
+                  e.stopPropagation();
+                  removePoint(index);
+                }}
+                title="ALT + Click để xóa, Kéo để chỉnh hướng"
+              />
+            </div>
+          ))}
+        </EdgeLabelRenderer>
+      )}
+    </>
+  );
+};
+
 // Initial nodes for the mind-map
 const initialNodes = [
   {
@@ -374,11 +598,24 @@ const Flow = () => {
     Object.keys(NODE_CATEGORIES).reduce((acc, key) => ({ ...acc, [key]: true }), {})
   );
   const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedEdge, setSelectedEdge] = useState(null);
   const [summary, setSummary] = useState(null);
   const [isSummarizing, setIsSummarizing] = useState(false);
   const [viewMode, setViewMode] = useState('builder'); // 'builder' or 'runner'
   const [activeFlowName, setActiveFlowName] = useState(null);
   const { screenToFlowPosition, getNodes, getEdges, getViewport, setViewport } = useReactFlow();
+  const edgeUpdateSuccessful = useRef(true);
+
+  // --- Một lần nâng cấp (Migrate) dây nối sang loại 'adjustable' ---
+  useEffect(() => {
+    setEdges(eds => {
+      const needsUpdate = eds.some(e => e.type !== 'adjustable');
+      if (needsUpdate) {
+        return eds.map(e => ({ ...e, type: 'adjustable' }));
+      }
+      return eds;
+    });
+  }, [setEdges]);
 
   // --- Selection Auto-pan ---
   const autoPanTimer = useRef(null);
@@ -614,7 +851,13 @@ const Flow = () => {
         ...edge,
         id: `e_${Date.now()}_${Math.random()}`,
         source: idMap[edge.source],
-        target: idMap[edge.target]
+        target: idMap[edge.target],
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 15,
+          height: 15,
+          color: '#94a3b8',
+        }
       }));
 
       setEdges(eds => eds.concat(newEdges));
@@ -625,10 +868,17 @@ const Flow = () => {
 
   const onNodeClick = useCallback((event, node) => {
     setSelectedNode(node);
+    setSelectedEdge(null);
+  }, []);
+
+  const onEdgeClick = useCallback((event, edge) => {
+    setSelectedEdge(edge);
+    setSelectedNode(null);
   }, []);
 
   const onPaneClick = useCallback(() => {
     setSelectedNode(null);
+    setSelectedEdge(null);
   }, []);
 
   const onUpdateNode = useCallback((nodeId, newData) => {
@@ -643,6 +893,18 @@ const Flow = () => {
     // Cập nhật selectedNode nếu nó đang được chọn để Panel hiển thị data mới
     setSelectedNode(prev => prev && prev.id === nodeId ? { ...prev, data: newData } : prev);
   }, [setNodes]);
+
+  const onUpdateEdge = useCallback((edgeId, newType) => {
+    setEdges((eds) =>
+      eds.map((edge) => {
+        if (edge.id === edgeId) {
+          return { ...edge, type: newType };
+        }
+        return edge;
+      })
+    );
+    setSelectedEdge(prev => prev && prev.id === edgeId ? { ...prev, type: newType } : prev);
+  }, [setEdges]);
 
   const toggleCategory = (key) => {
     setCollapsedCategories(prev => ({ ...prev, [key]: !prev[key] }));
@@ -666,6 +928,20 @@ const Flow = () => {
     mindMapNode: MindMapNode,
   }), []);
 
+  const edgeTypes = useMemo(() => ({
+    adjustable: AdjustableEdge,
+  }), []);
+
+  const defaultEdgeOptions = useMemo(() => ({
+    type: 'adjustable',
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      width: 15,
+      height: 15,
+      color: '#94a3b8',
+    },
+  }), []);
+
   const onNodesChange = useCallback(
     (changes) => {
       // Record history if it's a "meaningful" change (removal or connect, etc.)
@@ -685,10 +961,46 @@ const Flow = () => {
   const onConnect = useCallback(
     (params) => {
       takeSnapshot();
-      setEdges((eds) => addEdge({ ...params, type: 'smoothstep' }, eds));
+      setEdges((eds) => addEdge({ 
+        ...params, 
+        type: 'adjustable',
+        markerEnd: {
+          type: MarkerType.ArrowClosed,
+          width: 15,
+          height: 15,
+          color: '#94a3b8',
+        }
+      }, eds));
     },
-    [takeSnapshot]
+    [takeSnapshot, setEdges]
   );
+  const onEdgeUpdateStart = useCallback((event) => {
+    edgeUpdateSuccessful.current = false;
+    // Lưu lại vị trí bắt đầu để kiểm tra xem có phải chỉ là click không
+    window._edgeUpdateStartPos = { x: event.clientX, y: event.clientY };
+  }, []);
+
+  const onEdgeUpdate = useCallback((oldEdge, newConnection) => {
+    edgeUpdateSuccessful.current = true;
+    setEdges((els) => updateEdge(oldEdge, newConnection, els));
+  }, [setEdges]);
+
+  const onEdgeUpdateEnd = useCallback((event, edge) => {
+    const startPos = window._edgeUpdateStartPos;
+    const endPos = { x: event.clientX, y: event.clientY };
+    const distance = startPos ? Math.sqrt(Math.pow(endPos.x - startPos.x, 2) + Math.pow(endPos.y - startPos.y, 2)) : 0;
+
+    // Chỉ xóa nếu:
+    // 1. Thao tác update không thành công (kéo ra ngoài)
+    // 2. Và người dùng thực sự đã kéo đi một đoạn (tránh trường hợp chỉ click vào đầu dây)
+    if (!edgeUpdateSuccessful.current && distance > 10) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+      takeSnapshot();
+    }
+
+    edgeUpdateSuccessful.current = true;
+    window._edgeUpdateStartPos = null;
+  }, [setEdges, takeSnapshot]);
 
   const onNodeDragStart = useCallback(() => {
     takeSnapshot();
@@ -745,12 +1057,42 @@ const Flow = () => {
     [screenToFlowPosition, takeSnapshot]
   );
 
-  const exportToJson = useCallback(async () => {
-    let filename = activeFlowName;
-    if (!filename) {
-      filename = prompt("Nhập tên kịch bản (VD: Social/Facebook_Post):", `script_${Date.now()}`);
+  const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [saveModalData, setSaveModalData] = useState({ name: '', folder: '' });
+  const [existingFolders, setExistingFolders] = useState([]);
+
+  const fetchExistingFolders = useCallback(async () => {
+    try {
+      const response = await fetch('/api/flows');
+      const result = await response.json();
+      if (result.success) {
+        const folders = [...new Set(result.flows.map(f => f.group).filter(g => g !== 'Chung'))];
+        setExistingFolders(folders);
+      }
+    } catch (err) {
+      console.error("Lỗi khi lấy danh sách thư mục:", err);
     }
-    if (!filename) return;
+  }, []);
+
+  const exportToJson = useCallback(async () => {
+    await fetchExistingFolders();
+    const initialName = activeFlowName ? activeFlowName.split('/').pop() : `script_${Date.now()}`;
+    const initialFolder = activeFlowName && activeFlowName.includes('/')
+      ? activeFlowName.split('/').slice(0, -1).join('/')
+      : '';
+
+    setSaveModalData({ name: initialName, folder: initialFolder });
+    setIsSaveModalOpen(true);
+  }, [activeFlowName, fetchExistingFolders]);
+
+  const handleConfirmSave = async () => {
+    let { name, folder } = saveModalData;
+    if (!name.trim()) {
+      alert("Vui lòng nhập tên kịch bản!");
+      return;
+    }
+
+    const filename = folder.trim() ? `${folder.trim()}/${name.trim()}` : name.trim();
 
     const flow = {
       nodes,
@@ -770,23 +1112,25 @@ const Flow = () => {
       const result = await response.json();
       if (result.success) {
         setActiveFlowName(filename);
+        setIsSaveModalOpen(false);
         alert(`Đã lưu kịch bản vào thư mục Workflow/${filename}.json`);
       } else {
         throw new Error(result.error);
       }
     } catch (err) {
       console.error("Lỗi khi lưu vào server:", err);
-      // Fallback: Tải về trình duyệt nếu server không hỗ trợ (ví dụ khi không chạy dev server)
+      // Fallback
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(flow, null, 2));
       const downloadAnchorNode = document.createElement('a');
       downloadAnchorNode.setAttribute("href", dataStr);
-      downloadAnchorNode.setAttribute("download", `${filename}.json`);
+      downloadAnchorNode.setAttribute("download", `${name}.json`);
       document.body.appendChild(downloadAnchorNode);
       downloadAnchorNode.click();
       downloadAnchorNode.remove();
       alert("Đã tải xuống file vào thư mục mặc định của trình duyệt.");
+      setIsSaveModalOpen(false);
     }
-  }, [nodes, edges]);
+  };
 
   const onLayout = useCallback(() => {
     const selectedNodeIds = nodes.filter(n => n.selected).map(n => n.id);
@@ -795,11 +1139,19 @@ const Flow = () => {
       nodes,
       edges,
       'LR',
-      selectedNodeIds.length > 0 ? selectedNodeIds : null
     );
 
     setNodes([...layoutedNodes]);
-    setEdges([...layoutedEdges]);
+    setEdges(layoutedEdges.map(e => ({ 
+      ...e, 
+      type: 'adjustable',
+      markerEnd: {
+        type: MarkerType.ArrowClosed,
+        width: 15,
+        height: 15,
+        color: '#94a3b8',
+      }
+    })));
 
     // Fit view automatically after a small delay to let React render the positions
     setTimeout(() => {
@@ -814,7 +1166,16 @@ const Flow = () => {
         const flow = JSON.parse(e.target.result);
         if (flow) {
           setNodes(flow.nodes || []);
-          setEdges(flow.edges || []);
+          setEdges((flow.edges || []).map(e => ({ 
+            ...e, 
+            type: 'adjustable',
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              width: 15,
+              height: 15,
+              color: '#94a3b8',
+            }
+          })));
           // Set active name if it's a file from disk (optional, based on filename)
           const fileName = event.target.files[0].name.replace('.json', '');
           setActiveFlowName(fileName);
@@ -841,7 +1202,16 @@ const Flow = () => {
       const flowData = await res.json();
       if (flowData.nodes) {
         setNodes(flowData.nodes);
-        setEdges(flowData.edges || []);
+        setEdges((flowData.edges || []).map(e => ({ 
+          ...e, 
+          type: 'adjustable',
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+            width: 15,
+            height: 15,
+            color: '#94a3b8',
+          }
+        })));
         setActiveFlowName(flowName);
         setViewMode('builder');
         // Clear history on load
@@ -985,14 +1355,25 @@ const Flow = () => {
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          defaultEdgeOptions={defaultEdgeOptions}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          onEdgeUpdate={onEdgeUpdate}
+          onEdgeUpdateStart={onEdgeUpdateStart}
+          onEdgeUpdateEnd={onEdgeUpdateEnd}
+          edgesUpdatable={true}
+          edgesFocusable={true}
           onConnect={onConnect}
           onDrop={onDrop}
           onDragOver={onDragOver}
           onNodeClick={onNodeClick}
+          onEdgeClick={onEdgeClick}
           onPaneClick={onPaneClick}
           onNodeDragStop={onNodeDragStart}
+          edgeUpdaterRadius={25}
+          snapToGrid={true}
+          snapGrid={[10, 10]}
           selectionMode="partial"
           panOnScroll={true}
           panOnDrag={true}
@@ -1003,6 +1384,97 @@ const Flow = () => {
           <Background color="#1e293b" gap={20} variant="dots" />
           <Controls />
         </ReactFlow>
+
+        {/* Save Flow Modal */}
+        {isSaveModalOpen && (
+          <div className="ai-modal-overlay">
+            <div className="save-modal-content glass-panel">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500 rounded-xl text-white">
+                    <Download size={20} />
+                  </div>
+                  <h2 className="text-xl font-bold tracking-tight">Lưu kịch bản</h2>
+                </div>
+                <button
+                  onClick={() => setIsSaveModalOpen(false)}
+                  className="p-2 hover:bg-slate-100 rounded-full transition-all text-slate-400"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Thư mục nhóm</label>
+                  <div className="grid grid-cols-2 gap-3 max-h-[160px] overflow-y-auto mb-3 custom-scrollbar pr-1">
+                    <button
+                      onClick={() => setSaveModalData(prev => ({ ...prev, folder: '' }))}
+                      className={`folder-chip ${saveModalData.folder === '' ? 'active' : ''}`}
+                    >
+                      <Layers size={14} />
+                      Chung
+                    </button>
+                    {existingFolders.map(f => (
+                      <button
+                        key={f}
+                        onClick={() => setSaveModalData(prev => ({ ...prev, folder: f }))}
+                        className={`folder-chip ${saveModalData.folder === f ? 'active' : ''}`}
+                      >
+                        <Layers size={14} />
+                        {f}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="relative mt-4">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <Settings2 size={16} />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Hoặc tạo thư mục mới..."
+                      value={saveModalData.folder}
+                      onChange={(e) => setSaveModalData(prev => ({ ...prev, folder: e.target.value }))}
+                      className="custom-input pl-11"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-2">Tên kịch bản</label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                      <Code size={16} />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="VD: TaoYeuCau_SanXuat"
+                      value={saveModalData.name}
+                      onChange={(e) => setSaveModalData(prev => ({ ...prev, name: e.target.value }))}
+                      className="custom-input pl-11"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-6 border-t border-slate-100">
+                  <button
+                    onClick={() => setIsSaveModalOpen(false)}
+                    className="btn-save-cancel"
+                  >
+                    Hủy bỏ
+                  </button>
+                  <button
+                    onClick={handleConfirmSave}
+                    className="btn-save-confirm"
+                  >
+                    Lưu kịch bản
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Action Button Group - Bottom Right */}
         <Panel position="bottom-right" style={{ margin: '0 24px 24px 0' }}>
@@ -1076,11 +1548,16 @@ const Flow = () => {
           </div>
         </Panel>
 
-        {selectedNode && (
+        {(selectedNode || selectedEdge) && (
           <PropertyPanel
             selectedNode={selectedNode}
+            selectedEdge={selectedEdge}
             onUpdateNode={onUpdateNode}
-            onClose={() => setSelectedNode(null)}
+            onUpdateEdge={onUpdateEdge}
+            onClose={() => {
+              setSelectedNode(null);
+              setSelectedEdge(null);
+            }}
           />
         )}
         {summary && (

@@ -1,5 +1,6 @@
 from selenium.webdriver.support import expected_conditions as EC
 from ..resolver import resolve_locator
+import re
 
 def get_attribute(driver, wait, data, variables):
     """Lấy giá trị thuộc tính của một phần tử và gán vào biến."""
@@ -14,6 +15,18 @@ def get_attribute(driver, wait, data, variables):
     try:
         element = wait.until(EC.presence_of_element_located((by, selector)))
         attr_value = element.get_attribute(attribute)
+        
+        # Apply regex filter if provided
+        regex = data.get("regex")
+        if regex:
+            match = re.search(regex, attr_value)
+            if match:
+                attr_value = match.group(1) if match.groups() else match.group(0)
+                print(f"[GET-ATTR] Regex match found for '{attribute}': '{attr_value}'", flush=True)
+            else:
+                print(f"[GET-ATTR][WARN] Regex '{regex}' không khớp với '{attr_value}'. Lưu giá trị rỗng.", flush=True)
+                attr_value = ""
+
         variables[var_name] = attr_value
         print(f"[GET-ATTR] Đã lấy '{attribute}': '{attr_value}' -> Biến: {var_name}", flush=True)
     except Exception as e:

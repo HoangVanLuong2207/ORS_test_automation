@@ -20,6 +20,7 @@ def set_variable(driver, wait, data, variables):
         print(f"[SET-VAR] {name} = {value}", flush=True)
 
 from .utility.variable_manager import variable_manager
+from .utility.data_table import data_table
 
 from .logic.loop_handler import loop_handler
 
@@ -40,6 +41,7 @@ ACTION_REGISTRY = {
     "verify-visibility": verify_visibility,
     "if-condition": if_condition,
     "variable-manager": variable_manager,
+    "data-table": data_table,
     "loop": loop_handler,
     "connector": lambda driver, wait, data, variables: None
 }

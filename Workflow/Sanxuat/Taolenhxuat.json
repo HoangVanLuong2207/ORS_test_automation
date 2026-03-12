@@ -1,0 +1,421 @@
+{
+  "nodes": [
+    {
+      "id": "start-node",
+      "type": "mindMapNode",
+      "data": {
+        "label": "🚀 Bắt đầu kịch bản",
+        "isStart": true
+      },
+      "position": {
+        "x": 50,
+        "y": 50
+      },
+      "width": 149,
+      "height": 50,
+      "selected": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290077548_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 480,
+        "y": 50
+      },
+      "data": {
+        "label": "🌍 Mở URL",
+        "description": "Mở một địa chỉ trang web (URL) cụ thể.",
+        "originalId": "open-url",
+        "color": "#3B82F6",
+        "url": "https://dhv.ors.vn/warehouse/outbound"
+      },
+      "width": 336,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 310,
+        "y": 140
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290201385_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 910,
+        "y": 50
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/section/section/section/div[3]/div[1]/div[2]/div/div/div/div/div/div/div[1]/div/div/div/div/div/div[5]/button"
+      },
+      "width": 117,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 770,
+        "y": 130
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290328443_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1310,
+        "y": 40
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "selector": "//*[@id=\"form_item_product_to_produce_id\"]",
+        "text": "BN96-60938A"
+      },
+      "width": 156,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1310,
+        "y": 40
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290379782_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1720,
+        "y": 40
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1720,
+        "y": 40
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290429126_5",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1920,
+        "y": 40
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "selector": "//*[@id=\"form_item_production_quantity\"]",
+        "method": "XPath",
+        "text": "11000"
+      },
+      "width": 133,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 1920,
+        "y": 40
+      },
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290619300_6",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1100,
+        "y": 50
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "5"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1100,
+        "y": 50
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290688366_7",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1530,
+        "y": 50
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "2"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1530,
+        "y": 50
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773290844489_9",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2330,
+        "y": 50
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "DOWN"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2330,
+        "y": 50
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773290848590_10",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2520,
+        "y": 50
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2520,
+        "y": 50
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773291017587_11",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2130,
+        "y": 50
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "TAB"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2130,
+        "y": 50
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "start-node",
+      "sourceHandle": null,
+      "target": "node_1773290077548_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-start-node-node_1773290077548_0"
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290077548_0",
+      "sourceHandle": null,
+      "target": "node_1773290201385_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290077548_0-node_1773290201385_1"
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290379782_3",
+      "sourceHandle": null,
+      "target": "node_1773290429126_5",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290379782_3-node_1773290429126_5",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290201385_1",
+      "sourceHandle": null,
+      "target": "node_1773290619300_6",
+      "targetHandle": null,
+      "selected": false,
+      "id": "reactflow__edge-node_1773290201385_1-node_1773290619300_6"
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290619300_6",
+      "sourceHandle": null,
+      "target": "node_1773290328443_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290619300_6-node_1773290328443_2",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290328443_2",
+      "sourceHandle": null,
+      "target": "node_1773290688366_7",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290328443_2-node_1773290688366_7",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290688366_7",
+      "sourceHandle": null,
+      "target": "node_1773290379782_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290688366_7-node_1773290379782_3",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290844489_9",
+      "sourceHandle": null,
+      "target": "node_1773290848590_10",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290844489_9-node_1773290848590_10"
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773290429126_5",
+      "sourceHandle": null,
+      "target": "node_1773291017587_11",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773290429126_5-node_1773291017587_11"
+    },
+    {
+      "type": "adjustable",
+      "markerEnd": {
+        "type": "arrowclosed",
+        "width": 15,
+        "height": 15,
+        "color": "#94a3b8"
+      },
+      "source": "node_1773291017587_11",
+      "sourceHandle": null,
+      "target": "node_1773290844489_9",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773291017587_11-node_1773290844489_9"
+    }
+  ],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}

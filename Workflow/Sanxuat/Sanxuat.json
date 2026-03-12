@@ -1,0 +1,1130 @@
+{
+  "nodes": [
+    {
+      "id": "start-node",
+      "type": "mindMapNode",
+      "data": {
+        "label": "🚀 Bắt đầu kịch bản",
+        "isStart": true
+      },
+      "position": {
+        "x": 50,
+        "y": 50
+      },
+      "width": 149,
+      "height": 50,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 50,
+        "y": 50
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773027258552_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 480,
+        "y": 50
+      },
+      "data": {
+        "label": "🌍 Mở URL",
+        "description": "Mở một địa chỉ trang web (URL) cụ thể.",
+        "originalId": "open-url",
+        "color": "#3B82F6",
+        "url": "https://dhv.ors.vn/",
+        "note": "Vào dhv.ors"
+      },
+      "width": 172,
+      "height": 72,
+      "selected": false,
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "positionAbsolute": {
+        "x": 480,
+        "y": 50
+      }
+    },
+    {
+      "id": "node_1773027279751_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 753.761530343462,
+        "y": 29.96071802231357
+      },
+      "data": {
+        "label": "🔀 Điều kiện (If)",
+        "description": "Kiểm tra một điều kiện (văn bản hoặc sự tồn tại của element) để rẽ nhánh kịch bản.",
+        "isLogic": true,
+        "isBranching": true,
+        "originalId": "if-condition",
+        "color": "#8B5CF6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/h2",
+        "operator": "Tồn tại",
+        "value": "Đăng nhập",
+        "note": "Kiểm tra đã đăng nhập hay chưa"
+      },
+      "width": 288,
+      "height": 113,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 753.761530343462,
+        "y": 29.96071802231357
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027395963_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1338,
+        "y": 56.83988044098271
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_account\"]",
+        "text": "admin",
+        "note": "Tìm và nhập tài khoản"
+      },
+      "width": 133,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1338,
+        "y": 56.83988044098271
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027422820_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1553.0409417461437,
+        "y": 56.55092120691205
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "selector": "//*[@id=\"form_item_password\"]",
+        "text": "password123",
+        "method": "XPath",
+        "note": "Tìm và nhập mật khẩu"
+      },
+      "width": 147,
+      "height": 72,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1553.0409417461437,
+        "y": 56.55092120691205
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773027450342_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1747.883106925555,
+        "y": 56.62832994014313
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/div/div[2]/div/div[2]/div/form/div[5]/div/div/div/div/button",
+        "note": "Bấm đăng nhập"
+      },
+      "width": 160,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1747.883106925555,
+        "y": 56.62832994014313
+      },
+      "dragging": false,
+      "targetPosition": "left",
+      "sourcePosition": "right"
+    },
+    {
+      "id": "node_1773027677308_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1173.142734531356,
+        "y": 445.97195320925607
+      },
+      "data": {
+        "label": "🌍 Mở URL",
+        "description": "Mở một địa chỉ trang web (URL) cụ thể.",
+        "originalId": "open-url",
+        "color": "#3B82F6",
+        "url": "https://dhv.ors.vn/production/plan",
+        "note": "Vào trang kế hoạch sản xuất"
+      },
+      "width": 294,
+      "height": 72,
+      "targetPosition": "left",
+      "sourcePosition": "right",
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1173.142734531356,
+        "y": 445.97195320925607
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773030510862_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1146.8086938803933,
+        "y": 66.32209246263892
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "3"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1146.8086938803933,
+        "y": 66.32209246263892
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773030550136_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2266.405055299255,
+        "y": 454.1257455193282
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "2"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2266.405055299255,
+        "y": 454.1257455193282
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773030577797_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2460.327771101165,
+        "y": 444.43780755614085
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/section/section/section/div[3]/div[1]/div[2]/div/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div/div/div[4]/button",
+        "note": "Click nút tạo kế hoạch sản xuất"
+      },
+      "width": 280,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2460.327771101165,
+        "y": 444.43780755614085
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773030704855_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 990.3341448638498,
+        "y": 455.62880971121405
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "4"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 990.3341448638498,
+        "y": 455.62880971121405
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773030998096_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2219.2942860184075,
+        "y": 572.7938715686194
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "2"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2219.2942860184075,
+        "y": 572.7938715686194
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031046522_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2391.7321238998315,
+        "y": 561.9073911467958
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_process_id\"]",
+        "text": "{{congdoan}}"
+      },
+      "width": 151,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2391.7321238998315,
+        "y": 561.9073911467958
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031193784_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2763.2501811902166,
+        "y": 564.594890053553
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2763.2501811902166,
+        "y": 564.594890053553
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031272493_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2600,
+        "y": 570
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "1"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2600,
+        "y": 570
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031601186_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2220,
+        "y": 720
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/section/section/section/div[3]/div[1]/div[1]/div/span/div/div/div/div[2]/button"
+      },
+      "width": 117,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2220,
+        "y": 720
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031730657_4",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2300,
+        "y": 860
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_items_0_product_id\"]",
+        "text": "BN96-60938A"
+      },
+      "width": 156,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2300,
+        "y": 860
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031907630_6",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2560,
+        "y": 870
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "2"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2560,
+        "y": 870
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773031917657_7",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2310,
+        "y": 1030
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "selector": "//*[@id=\"form_item_items_0_component_id\"]",
+        "text": "T-96P-0360-B1"
+      },
+      "width": 165,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2310,
+        "y": 1030
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773032203433_8",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2750,
+        "y": 860
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2750,
+        "y": 860
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773032466852_10",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2780,
+        "y": 1030
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2780,
+        "y": 1030
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773032483614_11",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2550,
+        "y": 1040
+      },
+      "data": {
+        "label": "⏱️ Chờ (Giây)",
+        "description": "Tạm dừng kịch bản trong một khoảng thời gian nhất định (giây).",
+        "originalId": "wait-time",
+        "color": "#8B5CF6",
+        "seconds": "2"
+      },
+      "width": 113,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2550,
+        "y": 1040
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773038222018_12",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2420,
+        "y": 710
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_items_0_work_center_id\"]",
+        "text": "{{thietbi}}"
+      },
+      "width": 133,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2420,
+        "y": 710
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773038255344_13",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2810,
+        "y": 720
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B"
+      },
+      "width": 115,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2810,
+        "y": 720
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773038804146_16",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2218.58390618645,
+        "y": 1207.0308960198365
+      },
+      "data": {
+        "label": "⌨️ Nhập văn bản",
+        "description": "Nhập văn bản vào một ô input hoặc textarea.",
+        "originalId": "type-text",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "//*[@id=\"form_item_items_0_quantity\"]",
+        "text": "1000"
+      },
+      "width": 133,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2218.58390618645,
+        "y": 1207.0308960198365
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773038851516_17",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2429.6733062929907,
+        "y": 1205.8842714393284
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "TAB",
+        "count": "4"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2429.6733062929907,
+        "y": 1205.8842714393284
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773039039760_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2615.223169979233,
+        "y": 1206.2199911272721
+      },
+      "data": {
+        "label": "⌨️ Nhấn phím",
+        "description": "Nhấn một phím chức năng (Enter, Tab, v.v.).",
+        "originalId": "press-key",
+        "color": "#F59E0B",
+        "key": "ENTER"
+      },
+      "width": 115,
+      "height": 72,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2615.223169979233,
+        "y": 1206.2199911272721
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773039050529_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2814.309921991695,
+        "y": 1215.0470392316258
+      },
+      "data": {
+        "label": "🖱️ Click chuột",
+        "description": "Click chuột vào một phần tử trên trang web bằng Selector hoặc hình ảnh.",
+        "originalId": "mouse-click",
+        "color": "#3B82F6",
+        "method": "XPath",
+        "selector": "/html/body/div[1]/section/section/section/div[3]/div[1]/div[3]/div[2]/div/div/button"
+      },
+      "width": 117,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2814.309921991695,
+        "y": 1215.0470392316258
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773116798655_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1837.4830269006882,
+        "y": 432.7672874909494
+      },
+      "data": {
+        "label": "🔄 Vòng lặp",
+        "description": "Lặp lại một nhóm các hành động trong một số lần nhất định hoặc duyệt qua mảng.",
+        "isLogic": true,
+        "isBranching": true,
+        "originalId": "loop",
+        "color": "#8B5CF6",
+        "use_array": "Có",
+        "array_name": "congdoan",
+        "count": "7"
+      },
+      "width": 174,
+      "height": 95,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1837.4830269006882,
+        "y": 432.7672874909494
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773116927451_1",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1661.9707437759894,
+        "y": 453.92254751733486
+      },
+      "data": {
+        "label": "📦 Quản lý Biến",
+        "description": "Lấy dữ liệu từ Web hoặc gán mảng/giá trị cố định.",
+        "originalId": "variable-manager",
+        "color": "#10B981",
+        "type": "Khởi tạo mảng (phân tách bằng dấu phẩy)",
+        "variable": "congdoan",
+        "value": "Lami, Marking, Tapping, Cutting, Folding, Vision, Laprap"
+      },
+      "width": 125,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1661.9707437759894,
+        "y": 453.92254751733486
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773117177204_2",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1493.3279028514687,
+        "y": 454.0614427133545
+      },
+      "data": {
+        "label": "📦 Quản lý Biến",
+        "description": "Lấy dữ liệu từ Web hoặc gán mảng/giá trị cố định.",
+        "originalId": "variable-manager",
+        "color": "#10B981",
+        "variable": "thietbi",
+        "value": "Lami-01, Marking-01, Tapping-01, Cutting-01, Folding-01, Vision-01, LineC-LR",
+        "type": "Khởi tạo mảng (phân tách bằng dấu phẩy)"
+      },
+      "width": 125,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1493.3279028514687,
+        "y": 454.0614427133545
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773118277855_0",
+      "type": "mindMapNode",
+      "position": {
+        "x": 1971.978459330257,
+        "y": 596.029693807644
+      },
+      "data": {
+        "label": "🏁 Kết thúc",
+        "description": "Đánh dấu điểm kết thúc của một luồng xử lý.",
+        "isEnd": true,
+        "originalId": "end-flow",
+        "color": "#10B981"
+      },
+      "width": 100,
+      "height": 50,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1971.978459330257,
+        "y": 596.029693807644
+      },
+      "dragging": false
+    },
+    {
+      "id": "node_1773128634597_3",
+      "type": "mindMapNode",
+      "position": {
+        "x": 2600,
+        "y": 720
+      },
+      "data": {
+        "label": "🔍 Kiểm tra văn bản",
+        "description": "Kiểm tra xem văn bản của một phần tử có khớp với mong đợi không (Dừng kịch bản nếu sai).",
+        "originalId": "verify-text",
+        "color": "#EE8033",
+        "selector": "//*[contains(@class, 'ant-select-item-option-content')]//*[text()='{{thietbi}}']",
+        "method": "XPath",
+        "text": "{{thietbi}}",
+        "timeout": "60"
+      },
+      "width": 151,
+      "height": 54,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 2600,
+        "y": 720
+      },
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "type": "adjustable",
+      "source": "start-node",
+      "sourceHandle": null,
+      "target": "node_1773027258552_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-start-node-node_1773027258552_0",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027258552_0",
+      "sourceHandle": null,
+      "target": "node_1773027279751_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027258552_0-node_1773027279751_1",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027395963_2",
+      "sourceHandle": null,
+      "target": "node_1773027422820_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027395963_2-node_1773027422820_3",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027422820_3",
+      "sourceHandle": null,
+      "target": "node_1773027450342_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027422820_3-node_1773027450342_4",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027279751_1",
+      "sourceHandle": "true",
+      "target": "node_1773030510862_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027279751_1true-node_1773030510862_0"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773030510862_0",
+      "sourceHandle": null,
+      "target": "node_1773027395963_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773030510862_0-node_1773027395963_2"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773030550136_1",
+      "sourceHandle": null,
+      "target": "node_1773030577797_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773030550136_1-node_1773030577797_2",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027279751_1",
+      "sourceHandle": "false",
+      "target": "node_1773030704855_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027279751_1false-node_1773030704855_4"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027450342_4",
+      "sourceHandle": null,
+      "target": "node_1773030704855_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027450342_4-node_1773030704855_4"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773030704855_4",
+      "sourceHandle": null,
+      "target": "node_1773027677308_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773030704855_4-node_1773027677308_0"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773030577797_2",
+      "sourceHandle": null,
+      "target": "node_1773030998096_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773030577797_2-node_1773030998096_0",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773030998096_0",
+      "sourceHandle": null,
+      "target": "node_1773031046522_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773030998096_0-node_1773031046522_2",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031046522_2",
+      "sourceHandle": null,
+      "target": "node_1773031272493_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031046522_2-node_1773031272493_4",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031272493_4",
+      "sourceHandle": null,
+      "target": "node_1773031193784_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031272493_4-node_1773031193784_3",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031193784_3",
+      "sourceHandle": null,
+      "target": "node_1773031601186_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031193784_3-node_1773031601186_0",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031730657_4",
+      "sourceHandle": null,
+      "target": "node_1773031907630_6",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031730657_4-node_1773031907630_6",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031907630_6",
+      "sourceHandle": null,
+      "target": "node_1773032203433_8",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031907630_6-node_1773032203433_8",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773032203433_8",
+      "sourceHandle": null,
+      "target": "node_1773031917657_7",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773032203433_8-node_1773031917657_7",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031917657_7",
+      "sourceHandle": null,
+      "target": "node_1773032483614_11",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031917657_7-node_1773032483614_11",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773032483614_11",
+      "sourceHandle": null,
+      "target": "node_1773032466852_10",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773032483614_11-node_1773032466852_10",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773038804146_16",
+      "sourceHandle": null,
+      "target": "node_1773038851516_17",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773038804146_16-node_1773038851516_17",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773038851516_17",
+      "sourceHandle": null,
+      "target": "node_1773039039760_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773038851516_17-node_1773039039760_0",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773039039760_0",
+      "sourceHandle": null,
+      "target": "node_1773039050529_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773039039760_0-node_1773039050529_1",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773116798655_0",
+      "sourceHandle": "true",
+      "target": "node_1773030550136_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773116798655_0true-node_1773030550136_1",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773027677308_0",
+      "sourceHandle": null,
+      "target": "node_1773117177204_2",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773027677308_0-node_1773117177204_2"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773117177204_2",
+      "sourceHandle": null,
+      "target": "node_1773116927451_1",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773117177204_2-node_1773116927451_1"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773116927451_1",
+      "sourceHandle": null,
+      "target": "node_1773116798655_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773116927451_1-node_1773116798655_0"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773116798655_0",
+      "sourceHandle": "false",
+      "target": "node_1773118277855_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773116798655_0false-node_1773118277855_0"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773039050529_1",
+      "sourceHandle": null,
+      "target": "node_1773116798655_0",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773039050529_1-node_1773116798655_0",
+      "data": {
+        "pathPoints": [
+          {
+            "x": 3260.9783935546875,
+            "y": 1244.4957885742188
+          },
+          {
+            "x": 3259.6201171875,
+            "y": 338.201904296875
+          },
+          {
+            "x": 1835.1240234375,
+            "y": 338.69146728515625
+          }
+        ]
+      },
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773031601186_0",
+      "sourceHandle": null,
+      "target": "node_1773038222018_12",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773031601186_0-node_1773038222018_12"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773038255344_13",
+      "sourceHandle": null,
+      "target": "node_1773031730657_4",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773038255344_13-node_1773031730657_4",
+      "selected": false
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773032466852_10",
+      "sourceHandle": null,
+      "target": "node_1773038804146_16",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773032466852_10-node_1773038804146_16"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773038222018_12",
+      "sourceHandle": null,
+      "target": "node_1773128634597_3",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773038222018_12-node_1773128634597_3"
+    },
+    {
+      "type": "adjustable",
+      "source": "node_1773128634597_3",
+      "sourceHandle": null,
+      "target": "node_1773038255344_13",
+      "targetHandle": null,
+      "id": "reactflow__edge-node_1773128634597_3-node_1773038255344_13"
+    }
+  ],
+  "viewport": {
+    "x": 0,
+    "y": 0,
+    "zoom": 1
+  }
+}
